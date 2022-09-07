@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "OX1ncc7Yl0CvNVI5jWs37vcvWV+vCjuVD1YkuEO5vrE=",
+  "Source": "gdsmx-back-netcoreAPI",
+  "BasePath": "_content/gdsmx-back-netcoreAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
