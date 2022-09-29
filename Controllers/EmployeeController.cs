@@ -15,8 +15,9 @@ namespace gdsmx_back_netcoreAPI.Controllers
             this._dbContext = dbContext;
         }
 
+        [HttpGet]
         [HttpGet("GetAll")]
-        public IActionResult ObtenerEmpleados()
+        public IActionResult GetEmployees()
         {
             IQueryable response = this._dbContext.Employees.AsQueryable();
             return Ok(response);
