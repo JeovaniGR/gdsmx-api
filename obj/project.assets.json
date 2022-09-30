@@ -2226,19 +2226,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\YX788XV\\.nuget\\packages\\": {}
+    "C:\\Users\\ASUS\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\YX788XV\\OneDrive - EY\\Documents\\gdsmx-backend\\gdsmx-back-netcoreAPI.csproj",
+      "projectUniqueName": "E:\\Repos\\gdsmx-back-netcoreAPI.csproj",
       "projectName": "gdsmx-back-netcoreAPI",
-      "projectPath": "C:\\Users\\YX788XV\\OneDrive - EY\\Documents\\gdsmx-backend\\gdsmx-back-netcoreAPI.csproj",
-      "packagesPath": "C:\\Users\\YX788XV\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\YX788XV\\OneDrive - EY\\Documents\\gdsmx-backend\\obj\\",
+      "projectPath": "E:\\Repos\\gdsmx-back-netcoreAPI.csproj",
+      "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+      "outputPath": "E:\\Repos\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\YX788XV\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2302,7 +2302,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

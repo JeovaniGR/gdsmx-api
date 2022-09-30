@@ -1,40 +1,42 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using gdsmx_back_netcoreAPI.Models;
+using gdsmx_back_netcoreAPI.Interfaces;
+using gdsmx_back_netcoreAPI.DTO;
 
 namespace gdsmx_back_netcoreAPI.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        public readonly sdgmxdemosqldbContext _dbContext;
+        private readonly IEmployeeRepository _repository;
 
-        public EmployeeController(sdgmxdemosqldbContext dbContext)
+        public EmployeeController(IEmployeeRepository repository)
         {
-            this._dbContext = dbContext;
+            _repository = repository;
         }
 
-        [HttpGet]
-        [HttpGet("GetAll")]
-        public IActionResult GetEmployees()
+        [HttpPost]
+        [HttpPost("GetAll")]
+        public ActionResult<IEnumerable<Employee>> GetEmployees(RequestEmployee requestEmployee)
         {
-            IQueryable response = this._dbContext.Employees.AsQueryable();
-            return Ok(response);
+            var employees = _repository.Get();
+            return Ok(employees);
         }
 
-        [HttpGet("GetById")]
-        public IActionResult ObtenerPorID(int id)
-        {
+        //[HttpGet("GetById")]
+        //public IActionResult ObtenerPorID(int id)
+        //{
             
-            var response = this._dbContext.Employees.Find(id);
+        //    var response = this._dbContext.Employees.Find(id);
 
-            if (response == null)
-            {
-                return NotFound($"No se encontró el ID {id}");
-            }
+        //    if (response == null)
+        //    {
+        //        return NotFound($"No se encontró el ID {id}");
+        //    }
 
-            return Ok(response);
-        }
+        //    return Ok(response);
+        //}
     }
 }
