@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using gdsmx_back_netcoreAPI.DTO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -33,11 +34,39 @@ namespace gdsmx_back_netcoreAPI.Models
         public virtual DbSet<GenericCatalog> GenericCatalogs { get; set; } = null!;
         public virtual DbSet<GenericSubCatalog> GenericSubCatalogs { get; set; } = null!;
         public virtual DbSet<LevelCatalog> LevelCatalogs { get; set; } = null!;
+        public virtual DbSet<LevelSubCatalog> LevelSubCatalogs { get; set; } = null!;
         public virtual DbSet<Location> Locations { get; set; } = null!;
         public virtual DbSet<PersonSegmentCatalog> PersonSegmentCatalogs { get; set; } = null!;
 
+        public virtual DbSet<DataEmployee> DataEmployees { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Context for SP_GetEmployee
+            modelBuilder.Entity<DataEmployee>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.IdEmployee);
+                entity.Property(e => e.GPN);
+                entity.Property(e => e.FirstName);
+                entity.Property(e => e.MiddleName);
+                entity.Property(e => e.LastName);
+                entity.Property(e => e.SecondLastName);
+                entity.Property(e => e.Birthdate);
+                entity.Property(e => e.JoinedDate);
+                entity.Property(e => e.Email);
+                entity.Property(e => e.Counselor);
+                entity.Property(e => e.Location);
+                entity.Property(e => e.PersonSegment);
+                entity.Property(e => e.Competency);
+                entity.Property(e => e.Status);
+                entity.Property(e => e.Rank);
+                entity.Property(e => e.Level);
+                entity.Property(e => e.Grade);
+                entity.Property(e => e.Notes);
+            });
+
             modelBuilder.Entity<BadgeCategory>(entity =>
             {
                 entity.HasKey(e => e.IdBadgeCategory);
@@ -512,9 +541,15 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.Property(e => e.IdEmployee).HasComment("Id Employee");
 
-                entity.Property(e => e.Birthdate)
-                    .HasColumnType("date")
-                    .HasComment("Birthdate");
+                entity.Property(e => e.BirthdateDay)
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .HasComment("Day of the birthdate");
+
+                entity.Property(e => e.BirthdateMonth)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasComment("Month of the birthdate");
 
                 entity.Property(e => e.CreateDate)
                     .HasColumnType("datetime")
@@ -627,6 +662,8 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.Property(e => e.IdLevel).HasComment("Id Level Catalog");
 
+                entity.Property(e => e.IdLevelSub).HasComment("Id of the sub level of the employee");
+
                 entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
 
                 entity.Property(e => e.IsActive)
@@ -649,6 +686,12 @@ namespace gdsmx_back_netcoreAPI.Models
                     .HasForeignKey(d => d.IdLevel)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_EmployeeLevel_LevelCatalog");
+
+                entity.HasOne(d => d.IdLevelSubNavigation)
+                    .WithMany(p => p.EmployeeLevels)
+                    .HasForeignKey(d => d.IdLevelSub)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmployeeLevel_LevelSubCatalog");
             });
 
             modelBuilder.Entity<Engagement>(entity =>
@@ -842,8 +885,6 @@ namespace gdsmx_back_netcoreAPI.Models
                     .HasDefaultValueSql("(getdate())")
                     .HasComment("Create date of the row");
 
-                entity.Property(e => e.Grade).HasComment("Grade");
-
                 entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
 
                 entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
@@ -863,6 +904,48 @@ namespace gdsmx_back_netcoreAPI.Models
                     .HasComment("Level");
 
                 entity.Property(e => e.Rank).HasComment("Rank");
+            });
+
+            modelBuilder.Entity<LevelSubCatalog>(entity =>
+            {
+                entity.HasKey(e => e.IdLevelSubCatalog);
+
+                entity.ToTable("LevelSubCatalog");
+
+                entity.HasComment("Sub level catalog of the employee");
+
+                entity.Property(e => e.IdLevelSubCatalog).HasComment("Id of the catalog");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date of the row");
+
+                entity.Property(e => e.Grade)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasComment("Grade");
+
+                entity.Property(e => e.IdCreated).HasComment("Id who create the row");
+
+                entity.Property(e => e.IdLevelCatalog).HasComment("Id of the principal catalog (Level Catalog)");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Date of the last updated day");
+
+                entity.HasOne(d => d.IdLevelCatalogNavigation)
+                    .WithMany(p => p.LevelSubCatalogs)
+                    .HasForeignKey(d => d.IdLevelCatalog)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LevelSubCatalog_LevelCatalog");
             });
 
             modelBuilder.Entity<Location>(entity =>

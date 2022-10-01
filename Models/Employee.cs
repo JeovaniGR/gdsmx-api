@@ -43,13 +43,17 @@ namespace gdsmx_back_netcoreAPI.Models
         /// </summary>
         public string? PreferredName { get; set; }
         /// <summary>
-        /// Birthdate
-        /// </summary>
-        public DateTime? Birthdate { get; set; }
-        /// <summary>
         /// Email of the employee
         /// </summary>
         public string? Email { get; set; }
+        /// <summary>
+        /// Day of the birthdate
+        /// </summary>
+        public string? BirthdateDay { get; set; }
+        /// <summary>
+        /// Month of the birthdate
+        /// </summary>
+        public string? BirthdateMonth { get; set; }
         /// <summary>
         /// Joined date of the employee on the firm
         /// </summary>

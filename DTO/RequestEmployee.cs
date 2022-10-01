@@ -2,11 +2,12 @@
 {
     public class RequestEmployee
     {
-        public string? GPN { get; set; }
-        public int? page { get; set; }
-        public int? pageSize { get; set; }
-        public string? competency { get; set; }
-	    public string? level { get; set; }
-	    public string? status { get; set; }
+        public string GPN { get; set; }
+        public int IdEmployee { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public string? Competency { get; set; }
+	    public string? Level { get; set; }
+	    public string? Status { get; set; }
     }
 }

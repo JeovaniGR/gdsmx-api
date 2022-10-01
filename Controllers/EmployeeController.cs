@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using gdsmx_back_netcoreAPI.Models;
-using gdsmx_back_netcoreAPI.Interfaces;
+using gdsmx_back_netcoreAPI.BL.Interfaces;
 using gdsmx_back_netcoreAPI.DTO;
 
 namespace gdsmx_back_netcoreAPI.Controllers
@@ -10,33 +10,19 @@ namespace gdsmx_back_netcoreAPI.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly IEmployeeRepository _repository;
+        private readonly IBLEmployee _bLEmployee;
 
-        public EmployeeController(IEmployeeRepository repository)
+        public EmployeeController(IBLEmployee bLEmployee)
         {
-            _repository = repository;
+            _bLEmployee = bLEmployee;
         }
 
         [HttpPost]
         [HttpPost("GetAll")]
-        public ActionResult<IEnumerable<Employee>> GetEmployees(RequestEmployee requestEmployee)
+        public ActionResult<IEnumerable<DataEmployee>> GetEmployees(RequestEmployee requestEmployee)
         {
-            var employees = _repository.Get();
+            var employees = _bLEmployee.Get(requestEmployee);
             return Ok(employees);
         }
-
-        //[HttpGet("GetById")]
-        //public IActionResult ObtenerPorID(int id)
-        //{
-            
-        //    var response = this._dbContext.Employees.Find(id);
-
-        //    if (response == null)
-        //    {
-        //        return NotFound($"No se encontró el ID {id}");
-        //    }
-
-        //    return Ok(response);
-        //}
     }
 }

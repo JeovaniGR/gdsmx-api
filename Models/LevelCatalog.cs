@@ -11,6 +11,7 @@ namespace gdsmx_back_netcoreAPI.Models
         public LevelCatalog()
         {
             EmployeeLevels = new HashSet<EmployeeLevel>();
+            LevelSubCatalogs = new HashSet<LevelSubCatalog>();
         }
 
         /// <summary>
@@ -25,10 +26,6 @@ namespace gdsmx_back_netcoreAPI.Models
         /// Level
         /// </summary>
         public string Level { get; set; } = null!;
-        /// <summary>
-        /// Grade
-        /// </summary>
-        public int Grade { get; set; }
         /// <summary>
         /// Indicate if the row is active
         /// </summary>
@@ -51,5 +48,6 @@ namespace gdsmx_back_netcoreAPI.Models
         public DateTime? LastUpdatedDate { get; set; }
 
         public virtual ICollection<EmployeeLevel> EmployeeLevels { get; set; }
+        public virtual ICollection<LevelSubCatalog> LevelSubCatalogs { get; set; }
     }
 }

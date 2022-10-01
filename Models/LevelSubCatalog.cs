@@ -4,28 +4,33 @@ using System.Collections.Generic;
 namespace gdsmx_back_netcoreAPI.Models
 {
     /// <summary>
-    /// Relation between all the levels of one employee on the time
+    /// Sub level catalog of the employee
     /// </summary>
-    public partial class EmployeeLevel
+    public partial class LevelSubCatalog
     {
+        public LevelSubCatalog()
+        {
+            EmployeeLevels = new HashSet<EmployeeLevel>();
+        }
+
         /// <summary>
-        /// Id Employee
+        /// Id of the catalog
         /// </summary>
-        public int IdEmployee { get; set; }
+        public int IdLevelSubCatalog { get; set; }
         /// <summary>
-        /// Id Level Catalog
+        /// Id of the principal catalog (Level Catalog)
         /// </summary>
-        public int IdLevel { get; set; }
+        public int IdLevelCatalog { get; set; }
         /// <summary>
-        /// Id of the sub level of the employee
+        /// Grade
         /// </summary>
-        public int IdLevelSub { get; set; }
+        public string Grade { get; set; } = null!;
         /// <summary>
         /// Indicate if the row is active
         /// </summary>
         public bool? IsActive { get; set; }
         /// <summary>
-        /// Id of who created the row
+        /// Id who create the row
         /// </summary>
         public int? IdCreated { get; set; }
         /// <summary>
@@ -37,12 +42,11 @@ namespace gdsmx_back_netcoreAPI.Models
         /// </summary>
         public int? IdUpdated { get; set; }
         /// <summary>
-        /// Last updated date
+        /// Date of the last updated day
         /// </summary>
         public DateTime? LastUpdatedDate { get; set; }
 
-        public virtual Employee IdEmployeeNavigation { get; set; } = null!;
-        public virtual LevelCatalog IdLevelNavigation { get; set; } = null!;
-        public virtual LevelSubCatalog IdLevelSubNavigation { get; set; } = null!;
+        public virtual LevelCatalog IdLevelCatalogNavigation { get; set; } = null!;
+        public virtual ICollection<EmployeeLevel> EmployeeLevels { get; set; }
     }
 }
