@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using gdsmx_back_netcoreAPI.DTO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -16,22 +17,99 @@ namespace gdsmx_back_netcoreAPI.Models
         {
         }
 
-        public virtual DbSet<Catalog> Catalogs { get; set; } = null!;
+        public virtual DbSet<BadgeCategory> BadgeCategories { get; set; } = null!;
+        public virtual DbSet<BadgeCourse> BadgeCourses { get; set; } = null!;
+        public virtual DbSet<BadgeCourseEmployee> BadgeCourseEmployees { get; set; } = null!;
+        public virtual DbSet<BadgeDomain> BadgeDomains { get; set; } = null!;
+        public virtual DbSet<BadgeLevel> BadgeLevels { get; set; } = null!;
+        public virtual DbSet<BadgeStatus> BadgeStatuses { get; set; } = null!;
+        public virtual DbSet<BadgeSubDomain> BadgeSubDomains { get; set; } = null!;
+        public virtual DbSet<BadgeTopic> BadgeTopics { get; set; } = null!;
+        public virtual DbSet<CompetenciesCatalog> CompetenciesCatalogs { get; set; } = null!;
+        public virtual DbSet<Country> Countries { get; set; } = null!;
         public virtual DbSet<Employee> Employees { get; set; } = null!;
-        public virtual DbSet<SubCatalog> SubCatalogs { get; set; } = null!;
-        public virtual DbSet<TimesheetReportExcel> TimesheetReportExcels { get; set; } = null!;
+        public virtual DbSet<EmployeeLevel> EmployeeLevels { get; set; } = null!;
+        public virtual DbSet<Engagement> Engagements { get; set; } = null!;
+        public virtual DbSet<FiscalYear> FiscalYears { get; set; } = null!;
+        public virtual DbSet<GenericCatalog> GenericCatalogs { get; set; } = null!;
+        public virtual DbSet<GenericSubCatalog> GenericSubCatalogs { get; set; } = null!;
+        public virtual DbSet<LevelCatalog> LevelCatalogs { get; set; } = null!;
+        public virtual DbSet<LevelSubCatalog> LevelSubCatalogs { get; set; } = null!;
+        public virtual DbSet<Location> Locations { get; set; } = null!;
+        public virtual DbSet<PersonSegmentCatalog> PersonSegmentCatalogs { get; set; } = null!;
 
-     
+        public virtual DbSet<DataEmployee> DataEmployees { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Catalog>(entity =>
+            //Context for SP_GetEmployee
+            modelBuilder.Entity<DataEmployee>(entity =>
             {
-                entity.HasKey(e => e.IdCatalog);
+                entity.HasNoKey();
 
-                entity.ToTable("Catalog");
+                entity.Property(e => e.IdEmployee);
+                entity.Property(e => e.GPN);
+                entity.Property(e => e.FirstName);
+                entity.Property(e => e.MiddleName);
+                entity.Property(e => e.LastName);
+                entity.Property(e => e.SecondLastName);
+                entity.Property(e => e.Birthdate);
+                entity.Property(e => e.JoinedDate);
+                entity.Property(e => e.Email);
+                entity.Property(e => e.Counselor);
+                entity.Property(e => e.Location);
+                entity.Property(e => e.PersonSegment);
+                entity.Property(e => e.Competency);
+                entity.Property(e => e.Status);
+                entity.Property(e => e.Rank);
+                entity.Property(e => e.Level);
+                entity.Property(e => e.Grade);
+                entity.Property(e => e.Notes);
+            });
 
-                entity.Property(e => e.IdCatalog).HasComment("Id Catalog");
+            modelBuilder.Entity<BadgeCategory>(entity =>
+            {
+                entity.HasKey(e => e.IdBadgeCategory);
+
+                entity.ToTable("BadgeCategory");
+
+                entity.HasComment("Badge category");
+
+                entity.Property(e => e.IdBadgeCategory).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date of the row");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasComment("Description");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+            });
+
+            modelBuilder.Entity<BadgeCourse>(entity =>
+            {
+                entity.HasKey(e => e.IdBadgeCourse);
+
+                entity.ToTable("BadgeCourse");
+
+                entity.HasComment("Badge courses");
+
+                entity.Property(e => e.IdBadgeCourse).HasComment("Id of the table");
 
                 entity.Property(e => e.CreateDate)
                     .HasColumnType("datetime")
@@ -41,12 +119,416 @@ namespace gdsmx_back_netcoreAPI.Models
                 entity.Property(e => e.Description)
                     .HasMaxLength(150)
                     .IsUnicode(false)
-                    .HasComment("Description of the catalog");
+                    .HasComment("Description of the course");
+
+                entity.Property(e => e.IdBadgeDomain).HasComment("Id of the domain");
+
+                entity.Property(e => e.IdBadgeLevel).HasComment("Id of the level of the badge");
+
+                entity.Property(e => e.IdBadgeSubDomain).HasComment("Id of the subdomain");
+
+                entity.Property(e => e.IdBadgeTopic).HasComment("Id of the topic");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
 
                 entity.Property(e => e.IsActive)
                     .IsRequired()
                     .HasDefaultValueSql("((1))")
-                    .HasComment("Is active the row");
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+
+                entity.HasOne(d => d.IdBadgeDomainNavigation)
+                    .WithMany(p => p.BadgeCourses)
+                    .HasForeignKey(d => d.IdBadgeDomain)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeCourse_BadgeDomain");
+
+                entity.HasOne(d => d.IdBadgeLevelNavigation)
+                    .WithMany(p => p.BadgeCourses)
+                    .HasForeignKey(d => d.IdBadgeLevel)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeCourse_BadgeLevel");
+
+                entity.HasOne(d => d.IdBadgeSubDomainNavigation)
+                    .WithMany(p => p.BadgeCourses)
+                    .HasForeignKey(d => d.IdBadgeSubDomain)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeCourse_BadgeSubDomain");
+
+                entity.HasOne(d => d.IdBadgeTopicNavigation)
+                    .WithMany(p => p.BadgeCourses)
+                    .HasForeignKey(d => d.IdBadgeTopic)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeCourse_BadgeTopic");
+            });
+
+            modelBuilder.Entity<BadgeCourseEmployee>(entity =>
+            {
+                entity.HasKey(e => e.IdBadgeCourseEmployee);
+
+                entity.ToTable("BadgeCourseEmployee");
+
+                entity.HasComment("Relation between the badge courses and the employee");
+
+                entity.Property(e => e.IdBadgeCourseEmployee).HasComment("Id principal of the table");
+
+                entity.Property(e => e.Comments)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasComment("Comments");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
+
+                entity.Property(e => e.EndDate)
+                    .HasColumnType("date")
+                    .HasComment("End date of the badge");
+
+                entity.Property(e => e.IdBadgeCourse).HasComment("Id of the course");
+
+                entity.Property(e => e.IdBadgeDomain).HasComment("Id of the domain");
+
+                entity.Property(e => e.IdBadgeLevel).HasComment("Id fo the level of the badge");
+
+                entity.Property(e => e.IdBadgeStatus).HasComment("Id of the status ");
+
+                entity.Property(e => e.IdBadgeSubDomain).HasComment("Id of the subdomain");
+
+                entity.Property(e => e.IdBadgeTopic).HasComment("Id of the topic");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdEmployee).HasComment("Id of the employee");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+
+                entity.Property(e => e.StartDate)
+                    .HasColumnType("date")
+                    .HasComment("Start date of the badge");
+
+                entity.HasOne(d => d.IdBadgeCourseNavigation)
+                    .WithMany(p => p.BadgeCourseEmployees)
+                    .HasForeignKey(d => d.IdBadgeCourse)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeCourseEmployee_BadgeCourse");
+
+                entity.HasOne(d => d.IdBadgeDomainNavigation)
+                    .WithMany(p => p.BadgeCourseEmployees)
+                    .HasForeignKey(d => d.IdBadgeDomain)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeCourseEmployee_BadgeDomain");
+
+                entity.HasOne(d => d.IdBadgeLevelNavigation)
+                    .WithMany(p => p.BadgeCourseEmployees)
+                    .HasForeignKey(d => d.IdBadgeLevel)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeCourseEmployee_BadgeLevel");
+
+                entity.HasOne(d => d.IdBadgeStatusNavigation)
+                    .WithMany(p => p.BadgeCourseEmployees)
+                    .HasForeignKey(d => d.IdBadgeStatus)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeCourseEmployee_BadgeStatus");
+
+                entity.HasOne(d => d.IdBadgeSubDomainNavigation)
+                    .WithMany(p => p.BadgeCourseEmployees)
+                    .HasForeignKey(d => d.IdBadgeSubDomain)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeCourseEmployee_BadgeSubDomain");
+
+                entity.HasOne(d => d.IdBadgeTopicNavigation)
+                    .WithMany(p => p.BadgeCourseEmployees)
+                    .HasForeignKey(d => d.IdBadgeTopic)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeCourseEmployee_BadgeTopic");
+
+                entity.HasOne(d => d.IdEmployeeNavigation)
+                    .WithMany(p => p.BadgeCourseEmployees)
+                    .HasForeignKey(d => d.IdEmployee)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeCourseEmployee_Employee");
+            });
+
+            modelBuilder.Entity<BadgeDomain>(entity =>
+            {
+                entity.HasKey(e => e.IdBadgeDomain);
+
+                entity.ToTable("BadgeDomain");
+
+                entity.HasComment("Badge Domain");
+
+                entity.Property(e => e.IdBadgeDomain).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Description of the domain");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+            });
+
+            modelBuilder.Entity<BadgeLevel>(entity =>
+            {
+                entity.HasKey(e => e.IdBadgeLevel);
+
+                entity.ToTable("BadgeLevel");
+
+                entity.HasComment("Badge Level");
+
+                entity.Property(e => e.IdBadgeLevel).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Description of the level");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+            });
+
+            modelBuilder.Entity<BadgeStatus>(entity =>
+            {
+                entity.HasKey(e => e.IdBadgeStatus);
+
+                entity.ToTable("BadgeStatus");
+
+                entity.HasComment("Badge Status");
+
+                entity.Property(e => e.IdBadgeStatus).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Description of the status");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+            });
+
+            modelBuilder.Entity<BadgeSubDomain>(entity =>
+            {
+                entity.HasKey(e => e.IdBadgeSubDomain);
+
+                entity.ToTable("BadgeSubDomain");
+
+                entity.HasComment("Badge Subdomain");
+
+                entity.Property(e => e.IdBadgeSubDomain).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Description of the subdomain");
+
+                entity.Property(e => e.IdBadgeDomain).HasComment("Id of the domain");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+
+                entity.HasOne(d => d.IdBadgeDomainNavigation)
+                    .WithMany(p => p.BadgeSubDomains)
+                    .HasForeignKey(d => d.IdBadgeDomain)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeSubDomain_BadgeDomain");
+            });
+
+            modelBuilder.Entity<BadgeTopic>(entity =>
+            {
+                entity.HasKey(e => e.IdBadgeTopic);
+
+                entity.ToTable("BadgeTopic");
+
+                entity.HasComment("Badge Topic");
+
+                entity.Property(e => e.IdBadgeTopic).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Description of the topic");
+
+                entity.Property(e => e.IdBadgeCategory).HasComment("Id of the category");
+
+                entity.Property(e => e.IdBadgeDomain).HasComment("Id of the domain");
+
+                entity.Property(e => e.IdBadgeSubDomain).HasComment("Id of the subdomain");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+
+                entity.HasOne(d => d.IdBadgeCategoryNavigation)
+                    .WithMany(p => p.BadgeTopics)
+                    .HasForeignKey(d => d.IdBadgeCategory)
+                    .HasConstraintName("FK_BadgeTopic_BadgeCategory");
+
+                entity.HasOne(d => d.IdBadgeDomainNavigation)
+                    .WithMany(p => p.BadgeTopics)
+                    .HasForeignKey(d => d.IdBadgeDomain)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeTopic_BadgeDomain");
+
+                entity.HasOne(d => d.IdBadgeSubDomainNavigation)
+                    .WithMany(p => p.BadgeTopics)
+                    .HasForeignKey(d => d.IdBadgeSubDomain)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BadgeTopic_BadgeSubDomain");
+            });
+
+            modelBuilder.Entity<CompetenciesCatalog>(entity =>
+            {
+                entity.HasKey(e => e.IdCompetencyCatalog)
+                    .HasName("PK_Competencies");
+
+                entity.ToTable("CompetenciesCatalog");
+
+                entity.HasComment("Catalog of competencies");
+
+                entity.Property(e => e.IdCompetencyCatalog).HasComment("Id of the competency");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date of the row");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasComment("Name of the competency");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of the user who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the compentecy is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+            });
+
+            modelBuilder.Entity<Country>(entity =>
+            {
+                entity.HasKey(e => e.IdCountry);
+
+                entity.ToTable("Country");
+
+                entity.HasComment("Country");
+
+                entity.Property(e => e.IdCountry).HasComment("Id of the country");
+
+                entity.Property(e => e.Acronym)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasComment("Acronym of the country");
+
+                entity.Property(e => e.Country1)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasColumnName("Country")
+                    .HasComment("Name of the country");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("date")
+                    .HasComment("Last updated date");
             });
 
             modelBuilder.Entity<Employee>(entity =>
@@ -55,18 +537,29 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.ToTable("Employee");
 
-                entity.HasIndex(e => e.Gpn, "IX_Employee_GPN");
+                entity.HasComment("Principal table of the employee");
 
                 entity.Property(e => e.IdEmployee).HasComment("Id Employee");
 
-                entity.Property(e => e.Birthdate)
-                    .HasColumnType("date")
-                    .HasComment("Birthdate");
+                entity.Property(e => e.BirthdateDay)
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .HasComment("Day of the birthdate");
+
+                entity.Property(e => e.BirthdateMonth)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasComment("Month of the birthdate");
 
                 entity.Property(e => e.CreateDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())")
                     .HasComment("Creation date of the row");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasComment("Email of the employee");
 
                 entity.Property(e => e.FirstName)
                     .HasMaxLength(150)
@@ -79,6 +572,27 @@ namespace gdsmx_back_netcoreAPI.Models
                     .HasColumnName("GPN")
                     .HasComment("GPN number");
 
+                entity.Property(e => e.IdCompetency).HasComment("Competency of the employee");
+
+                entity.Property(e => e.IdCounselor).HasComment("Id of the counselor");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdLocation).HasComment("Id of the location of the office");
+
+                entity.Property(e => e.IdPersonSegment).HasComment("Id of the person segment catalog");
+
+                entity.Property(e => e.IdStatus).HasComment("Status of the employee");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.IsCounselor).HasComment("Indicate if the employee is a counselor");
+
                 entity.Property(e => e.JoinedDate)
                     .HasColumnType("date")
                     .HasComment("Joined date of the employee on the firm");
@@ -88,19 +602,239 @@ namespace gdsmx_back_netcoreAPI.Models
                     .IsUnicode(false)
                     .HasComment("Last name of the employee");
 
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+
                 entity.Property(e => e.MiddleName)
                     .HasMaxLength(150)
                     .IsUnicode(false)
                     .HasComment("Middle name of the employee");
+
+                entity.Property(e => e.Notes)
+                    .HasColumnType("text")
+                    .HasComment("Notes");
+
+                entity.Property(e => e.PreferredName)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Prefered name of the employee");
+
+                entity.Property(e => e.SecondLastName)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Second lastname");
+
+                entity.HasOne(d => d.IdCompetencyNavigation)
+                    .WithMany(p => p.Employees)
+                    .HasForeignKey(d => d.IdCompetency)
+                    .HasConstraintName("FK_Employee_CompetenciesCatalog");
+
+                entity.HasOne(d => d.IdPersonSegmentNavigation)
+                    .WithMany(p => p.Employees)
+                    .HasForeignKey(d => d.IdPersonSegment)
+                    .HasConstraintName("FK_Employee_PersonSegmentCatalog");
+
+                entity.HasOne(d => d.IdStatusNavigation)
+                    .WithMany(p => p.Employees)
+                    .HasForeignKey(d => d.IdStatus)
+                    .HasConstraintName("FK_Employee_GenericSubCatalog");
             });
 
-            modelBuilder.Entity<SubCatalog>(entity =>
+            modelBuilder.Entity<EmployeeLevel>(entity =>
             {
-                entity.HasKey(e => e.IdSubCatalog);
+                entity.HasKey(e => e.IdEmployee);
 
-                entity.ToTable("SubCatalog");
+                entity.ToTable("EmployeeLevel");
 
-                entity.Property(e => e.IdSubCatalog).HasComment("Id Sub-catalog");
+                entity.HasComment("Relation between all the levels of one employee on the time");
+
+                entity.Property(e => e.IdEmployee)
+                    .ValueGeneratedOnAdd()
+                    .HasComment("Id Employee");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date of the row");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdLevel).HasComment("Id Level Catalog");
+
+                entity.Property(e => e.IdLevelSub).HasComment("Id of the sub level of the employee");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+
+                entity.HasOne(d => d.IdEmployeeNavigation)
+                    .WithOne(p => p.EmployeeLevel)
+                    .HasForeignKey<EmployeeLevel>(d => d.IdEmployee)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmployeeLevel_Employee");
+
+                entity.HasOne(d => d.IdLevelNavigation)
+                    .WithMany(p => p.EmployeeLevels)
+                    .HasForeignKey(d => d.IdLevel)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmployeeLevel_LevelCatalog");
+
+                entity.HasOne(d => d.IdLevelSubNavigation)
+                    .WithMany(p => p.EmployeeLevels)
+                    .HasForeignKey(d => d.IdLevelSub)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmployeeLevel_LevelSubCatalog");
+            });
+
+            modelBuilder.Entity<Engagement>(entity =>
+            {
+                entity.HasKey(e => e.IdEngagement);
+
+                entity.ToTable("Engagement");
+
+                entity.HasComment("Indicates all the engagement of the employee");
+
+                entity.Property(e => e.IdEngagement).HasComment("Id of the engagement");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date of the row");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasComment("Name of the engagement");
+
+                entity.Property(e => e.EndDate)
+                    .HasColumnType("date")
+                    .HasComment("Ending date of the engagement");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdEmployee).HasComment("Id employee");
+
+                entity.Property(e => e.IdParent).HasComment("Id of the previous engagement");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive).HasComment("Is active the row");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+
+                entity.Property(e => e.StartDate)
+                    .HasColumnType("date")
+                    .HasComment("Starting date of the engagement");
+
+                entity.HasOne(d => d.IdEmployeeNavigation)
+                    .WithMany(p => p.Engagements)
+                    .HasForeignKey(d => d.IdEmployee)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Engagement_Employee");
+
+                entity.HasOne(d => d.IdParentNavigation)
+                    .WithMany(p => p.InverseIdParentNavigation)
+                    .HasForeignKey(d => d.IdParent)
+                    .HasConstraintName("FK_Engagement_Engagement");
+            });
+
+            modelBuilder.Entity<FiscalYear>(entity =>
+            {
+                entity.HasKey(e => e.IdFiscalYear)
+                    .HasName("PK_Fiscal Year");
+
+                entity.ToTable("FiscalYear");
+
+                entity.HasComment("Fiscal year management");
+
+                entity.Property(e => e.IdFiscalYear).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
+
+                entity.Property(e => e.EndDate)
+                    .HasColumnType("date")
+                    .HasComment("End date of the year");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdLocation).HasComment("Id of the location");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive).HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+
+                entity.Property(e => e.StartDate)
+                    .HasColumnType("date")
+                    .HasComment("Start date of the year");
+            });
+
+            modelBuilder.Entity<GenericCatalog>(entity =>
+            {
+                entity.HasKey(e => e.IdGenericCatalog)
+                    .HasName("PK_Catalog");
+
+                entity.ToTable("GenericCatalog");
+
+                entity.HasComment("Principal table of the generic catalog");
+
+                entity.Property(e => e.IdGenericCatalog).HasComment("Id Catalog");
+
+                entity.Property(e => e.Comments)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasComment("Comments about the new catalog");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Description of the catalog");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Is active the row");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+            });
+
+            modelBuilder.Entity<GenericSubCatalog>(entity =>
+            {
+                entity.HasKey(e => e.IdGenericSubCatalog)
+                    .HasName("PK_SubCatalog");
+
+                entity.ToTable("GenericSubCatalog");
+
+                entity.HasComment("Sub category of the principal catalog");
+
+                entity.Property(e => e.IdGenericSubCatalog).HasComment("Id Sub-catalog");
 
                 entity.Property(e => e.CreateDate)
                     .HasColumnType("datetime")
@@ -112,356 +846,191 @@ namespace gdsmx_back_netcoreAPI.Models
                     .IsUnicode(false)
                     .HasComment("Description of the sub-catalog");
 
-                entity.Property(e => e.IdCatalog).HasComment("Id catalog");
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdGenericCatalog).HasComment("Id catalog");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
 
                 entity.Property(e => e.IsActive)
                     .IsRequired()
-                    .HasDefaultValueSql("((1))");
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
 
-                entity.Property(e => e.Order).HasComment("Order of the sub-catalog");
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
 
-                entity.HasOne(d => d.IdCatalogNavigation)
-                    .WithMany(p => p.SubCatalogs)
-                    .HasForeignKey(d => d.IdCatalog)
+                entity.Property(e => e.Position).HasComment("Order of the sub-catalog");
+
+                entity.HasOne(d => d.IdGenericCatalogNavigation)
+                    .WithMany(p => p.GenericSubCatalogs)
+                    .HasForeignKey(d => d.IdGenericCatalog)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SubCatalog_Catalog");
             });
 
-            modelBuilder.Entity<TimesheetReportExcel>(entity =>
+            modelBuilder.Entity<LevelCatalog>(entity =>
             {
-                entity.HasKey(e => e.IdTimesheetReportExcel);
+                entity.HasKey(e => e.IdLevelCatalog);
 
-                entity.ToTable("TimesheetReportExcel");
+                entity.ToTable("LevelCatalog");
 
-                entity.Property(e => e.AccountName)
-                    .HasColumnType("text")
-                    .HasColumnName("Account_Name");
+                entity.HasComment("Level catalog of the employee");
 
-                entity.Property(e => e.AccountNumber)
-                    .HasColumnType("text")
-                    .HasColumnName("Account_Number");
-
-                entity.Property(e => e.Area).HasColumnType("text");
-
-                entity.Property(e => e.Category).HasColumnType("text");
-
-                entity.Property(e => e.Channel).HasColumnType("text");
-
-                entity.Property(e => e.ChargedHours)
-                    .HasColumnType("text")
-                    .HasColumnName("Charged_Hours");
-
-                entity.Property(e => e.ClientIndustryCode)
-                    .HasColumnType("text")
-                    .HasColumnName("Client_Industry_Code");
-
-                entity.Property(e => e.ClientIndustryDesc)
-                    .HasColumnType("text")
-                    .HasColumnName("Client_Industry_Desc");
-
-                entity.Property(e => e.ClientIndustrySectorCode)
-                    .HasColumnType("text")
-                    .HasColumnName("Client_Industry_Sector_Code");
-
-                entity.Property(e => e.ClientIndustrySectorDesc)
-                    .HasColumnType("text")
-                    .HasColumnName("Client_Industry_Sector_Desc");
-
-                entity.Property(e => e.ClientIndustrySubSectorCode)
-                    .HasColumnType("text")
-                    .HasColumnName("Client_Industry_Sub_Sector_Code");
-
-                entity.Property(e => e.ClientIndustrySubSectorDesc)
-                    .HasColumnType("text")
-                    .HasColumnName("Client_Industry_Sub_Sector_Desc");
-
-                entity.Property(e => e.Competency).HasColumnType("text");
-
-                entity.Property(e => e.CompetencyLead)
-                    .HasColumnType("text")
-                    .HasColumnName("Competency_Lead");
-
-                entity.Property(e => e.Country).HasColumnType("text");
-
-                entity.Property(e => e.Country2).HasColumnType("text");
+                entity.Property(e => e.IdLevelCatalog).HasComment("Id Level Catalog");
 
                 entity.Property(e => e.CreateDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Create date of the row");
 
-                entity.Property(e => e.DepartmentName)
-                    .HasColumnType("text")
-                    .HasColumnName("DEPARTMENT_NAME");
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
 
-                entity.Property(e => e.Description).HasColumnType("text");
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
 
-                entity.Property(e => e.EaseOrNonEase)
-                    .HasColumnType("text")
-                    .HasColumnName("Ease_OR_Non_Ease");
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
 
-                entity.Property(e => e.EmployeeCategory)
-                    .HasColumnType("text")
-                    .HasColumnName("Employee_Category");
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
 
-                entity.Property(e => e.EngBuName)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_BU_Name");
+                entity.Property(e => e.Level)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Level");
 
-                entity.Property(e => e.EngBuNumber)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_BU_Number");
+                entity.Property(e => e.Rank).HasComment("Rank");
+            });
 
-                entity.Property(e => e.EngClientName)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Client_Name");
+            modelBuilder.Entity<LevelSubCatalog>(entity =>
+            {
+                entity.HasKey(e => e.IdLevelSubCatalog);
 
-                entity.Property(e => e.EngClientNumber)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Client_Number");
+                entity.ToTable("LevelSubCatalog");
 
-                entity.Property(e => e.EngCodeBlock)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Code_Block");
+                entity.HasComment("Sub level catalog of the employee");
 
-                entity.Property(e => e.EngGlobalServiceCode)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Global_Service_Code");
+                entity.Property(e => e.IdLevelSubCatalog).HasComment("Id of the catalog");
 
-                entity.Property(e => e.EngGlobalServiceDesc)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Global_Service_Desc");
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date of the row");
 
-                entity.Property(e => e.EngManagerGpn)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Manager_GPN");
+                entity.Property(e => e.Grade)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasComment("Grade");
 
-                entity.Property(e => e.EngManagerName)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Manager_Name");
+                entity.Property(e => e.IdCreated).HasComment("Id who create the row");
 
-                entity.Property(e => e.EngMgmtUnitName)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Mgmt_Unit_Name");
+                entity.Property(e => e.IdLevelCatalog).HasComment("Id of the principal catalog (Level Catalog)");
 
-                entity.Property(e => e.EngMgmtUnitNumber)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Mgmt_Unit_Number");
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
 
-                entity.Property(e => e.EngName)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Name");
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
 
-                entity.Property(e => e.EngNumber)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Number");
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Date of the last updated day");
 
-                entity.Property(e => e.EngOperatingUnitDesc)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Operating_Unit_Desc");
+                entity.HasOne(d => d.IdLevelCatalogNavigation)
+                    .WithMany(p => p.LevelSubCatalogs)
+                    .HasForeignKey(d => d.IdLevelCatalog)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LevelSubCatalog_LevelCatalog");
+            });
 
-                entity.Property(e => e.EngOperatingUnitNumber)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Operating_Unit_Number");
+            modelBuilder.Entity<Location>(entity =>
+            {
+                entity.HasKey(e => e.IdLocation);
 
-                entity.Property(e => e.EngPartnerGpn)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Partner_GPN");
+                entity.ToTable("Location");
 
-                entity.Property(e => e.EngPartnerName)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Partner_Name");
+                entity.HasComment("Location");
 
-                entity.Property(e => e.EngServiceCode)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Service_Code");
+                entity.Property(e => e.IdLocation)
+                    .ValueGeneratedOnAdd()
+                    .HasComment("Id of the location of the office");
 
-                entity.Property(e => e.EngServiceCodeDesc)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Service_Code_Desc");
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
 
-                entity.Property(e => e.EngStatusCode)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Status_Code");
+                entity.Property(e => e.IdCountry).HasComment("Id of the country");
 
-                entity.Property(e => e.EngStatusCodeDesc)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Status_Code_Desc");
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
 
-                entity.Property(e => e.EngSubMgmtUnitDesc)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Sub_Mgmt_Unit_Desc");
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
 
-                entity.Property(e => e.EngSubMgmtUnitNumber)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Sub_Mgmt_Unit_Number");
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
 
-                entity.Property(e => e.EngType)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Type");
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
 
-                entity.Property(e => e.EngTypeDesc)
-                    .HasColumnType("text")
-                    .HasColumnName("Eng_Type_Desc");
-
-                entity.Property(e => e.EngagementActivityCode)
-                    .HasColumnType("text")
-                    .HasColumnName("Engagement_Activity_Code");
-
-                entity.Property(e => e.EngagementActivityName)
-                    .HasColumnType("text")
-                    .HasColumnName("Engagement_Activity_Name");
-
-                entity.Property(e => e.FinancialYear)
-                    .HasColumnType("text")
-                    .HasColumnName("Financial_Year");
-
-                entity.Property(e => e.FiscalYear)
-                    .HasColumnType("text")
-                    .HasColumnName("Fiscal_Year");
-
-                entity.Property(e => e.Gpn)
-                    .HasColumnType("text")
-                    .HasColumnName("GPN");
-
-                entity.Property(e => e.Level).HasColumnType("text");
-
-                entity.Property(e => e.Location).HasColumnType("text");
-
-                entity.Property(e => e.PdMonth)
-                    .HasColumnType("text")
-                    .HasColumnName("PD_Month");
-
-                entity.Property(e => e.PdWeek)
-                    .HasColumnType("text")
-                    .HasColumnName("PD_Week");
-
-                entity.Property(e => e.PeriodEndingDate)
-                    .HasColumnType("text")
-                    .HasColumnName("Period_Ending_Date");
-
-                entity.Property(e => e.PersonBusinessUnitName)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Business_Unit_Name");
-
-                entity.Property(e => e.PersonBusinessUnitNumber)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Business_Unit_Number");
-
-                entity.Property(e => e.PersonCodeBlock)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Code_Block");
-
-                entity.Property(e => e.PersonLocation)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Location");
-
-                entity.Property(e => e.PersonManagementUnitName)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Management_Unit_Name");
-
-                entity.Property(e => e.PersonManagementUnitNumber)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Management_Unit_Number");
-
-                entity.Property(e => e.PersonName)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Name");
-
-                entity.Property(e => e.PersonOperatingUnitName)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Operating_Unit_Name");
-
-                entity.Property(e => e.PersonOperatingUnitNumber)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Operating_Unit_Number");
-
-                entity.Property(e => e.PersonSegment)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Segment");
-
-                entity.Property(e => e.PersonSubManagementUnitName)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Sub_Management_Unit_Name");
-
-                entity.Property(e => e.PersonSubManagementUnitNumber)
-                    .HasColumnType("text")
-                    .HasColumnName("Person_Sub_Management_Unit_Number");
-
-                entity.Property(e => e.PrimarySector)
-                    .HasColumnType("text")
-                    .HasColumnName("Primary_Sector");
-
-                entity.Property(e => e.PriorityAccountCategoryCodeDesc)
-                    .HasColumnType("text")
-                    .HasColumnName("Priority_Account_Category_Code_Desc");
-
-                entity.Property(e => e.RankCode).HasColumnType("text");
-
-                entity.Property(e => e.RankDescription)
-                    .HasColumnType("text")
-                    .HasColumnName("Rank_Description");
-
-                entity.Property(e => e.Region).HasColumnType("text");
-
-                entity.Property(e => e.RegularRfMs)
-                    .HasColumnType("text")
-                    .HasColumnName("Regular_RF_MS");
-
-                entity.Property(e => e.ReportingSegment)
-                    .HasColumnType("text")
-                    .HasColumnName("Reporting_Segment");
-
-                entity.Property(e => e.SegmentEng)
-                    .HasColumnType("text")
-                    .HasColumnName("Segment_Eng");
-
-                entity.Property(e => e.ServiceLine)
-                    .HasColumnType("text")
-                    .HasColumnName("Service_Line");
-
-                entity.Property(e => e.ServiceLineDescription)
-                    .HasColumnType("text")
-                    .HasColumnName("Service_Line_Description");
-
-                entity.Property(e => e.Span)
-                    .HasColumnType("text")
-                    .HasColumnName("SPAN");
-
-                entity.Property(e => e.Ssl)
-                    .HasColumnType("text")
-                    .HasColumnName("SSL");
-
-                entity.Property(e => e.SubCategory)
-                    .HasColumnType("text")
-                    .HasColumnName("Sub_Category");
-
-                entity.Property(e => e.SubCompetency)
-                    .HasColumnType("text")
-                    .HasColumnName("Sub__Competency");
-
-                entity.Property(e => e.SubSector)
-                    .HasColumnType("text")
-                    .HasColumnName("Sub_Sector");
-
-                entity.Property(e => e.SubServiceLine)
-                    .HasColumnType("text")
-                    .HasColumnName("Sub_Service_Line");
-
-                entity.Property(e => e.SubServiceLineDesc)
-                    .HasColumnType("text")
-                    .HasColumnName("Sub_Service_Line_Desc");
-
-                entity.Property(e => e.TdMonth)
-                    .HasColumnType("text")
-                    .HasColumnName("TD_Month");
-
-                entity.Property(e => e.TdWeek)
-                    .HasColumnType("text")
-                    .HasColumnName("TD_Week");
-
-                entity.Property(e => e.TransactionDate)
-                    .HasColumnType("text")
-                    .HasColumnName("Transaction_Date");
+                entity.Property(e => e.Location1)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasColumnName("Location")
+                    .HasComment("Location of the office");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasComment("Name of the office");
+
+                entity.HasOne(d => d.IdLocationNavigation)
+                    .WithOne(p => p.Location)
+                    .HasForeignKey<Location>(d => d.IdLocation)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Location_Country");
+            });
+
+            modelBuilder.Entity<PersonSegmentCatalog>(entity =>
+            {
+                entity.HasKey(e => e.IdPersonSegmentCatalog)
+                    .HasName("PK_PersonSegment");
+
+                entity.ToTable("PersonSegmentCatalog");
+
+                entity.HasComment("Person Segment Catalog");
+
+                entity.Property(e => e.IdPersonSegmentCatalog).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Created date of the row");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Name of the Person Segment");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
             });
 
             OnModelCreatingPartial(modelBuilder);

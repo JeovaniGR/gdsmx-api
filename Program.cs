@@ -1,12 +1,18 @@
 using gdsmx_back_netcoreAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using gdsmx_back_netcoreAPI.BL.Interfaces;
+using gdsmx_back_netcoreAPI.BL.Implementation;
+using gdsmx_back_netcoreAPI.Data.Repositories;
+using gdsmx_back_netcoreAPI.Data.DataAccess;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<sdgmxdemosqldbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionStrig")));
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IBLEmployee, BLEmployee>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

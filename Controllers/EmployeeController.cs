@@ -1,39 +1,35 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using gdsmx_back_netcoreAPI.Models;
+using gdsmx_back_netcoreAPI.BL.Interfaces;
+using gdsmx_back_netcoreAPI.DTO;
+using System.Linq;
 
 namespace gdsmx_back_netcoreAPI.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        public readonly sdgmxdemosqldbContext _dbContext;
+        private readonly IBLEmployee _bLEmployee;
 
-        public EmployeeController(sdgmxdemosqldbContext dbContext)
+        public EmployeeController(IBLEmployee bLEmployee)
         {
-            this._dbContext = dbContext;
+            _bLEmployee = bLEmployee;
         }
 
-        [HttpGet("GetAll")]
-        public IActionResult ObtenerEmpleados()
+        [HttpPost]
+        [HttpPost("GetAll")]
+        public IActionResult GetEmployees(RequestEmployee requestEmployee)
         {
-            IQueryable response = this._dbContext.Employees.AsQueryable();
-            return Ok(response);
-        }
+            var employees = _bLEmployee.Get(requestEmployee);
 
-        [HttpGet("GetById")]
-        public IActionResult ObtenerPorID(int id)
-        {
-            
-            var response = this._dbContext.Employees.Find(id);
-
-            if (response == null)
+            if (employees == null)
             {
-                return NotFound($"No se encontró el ID {id}");
+                return NotFound("No se encontró ningún empleado");
             }
 
-            return Ok(response);
+            return Ok(employees);
         }
     }
 }
