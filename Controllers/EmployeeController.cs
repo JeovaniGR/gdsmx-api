@@ -24,5 +24,12 @@ namespace gdsmx_back_netcoreAPI.Controllers
             var employees = _bLEmployee.Get(requestEmployee);
             return Ok(employees);
         }
+
+        [HttpPost("GetAllFile")]
+        public ActionResult GetEmployeesFile(RequestEmployee requestEmployee)
+        {
+            var ok = _bLEmployee.GetFile(requestEmployee);
+            return Ok(ok);
+        }
     }
 }

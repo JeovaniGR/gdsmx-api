@@ -1,7 +1,9 @@
 ﻿using gdsmx_back_netcoreAPI.BL.Interfaces;
+using gdsmx_back_netcoreAPI.BL.Resource;
 using gdsmx_back_netcoreAPI.Data.Repositories;
 using gdsmx_back_netcoreAPI.DTO;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Data.SqlTypes;
 
 namespace gdsmx_back_netcoreAPI.BL.Implementation
@@ -21,6 +23,20 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
             var status = requestEmployee.Status ?? SqlString.Null;
 
             return _employeeRepository.Get(competency, level, status, requestEmployee.GPN, requestEmployee.IdEmployee, requestEmployee.Page, requestEmployee.PageSize);
+        }
+
+        public  bool GetFile(RequestEmployee requestEmployee)
+        {
+            var competency = requestEmployee.Competency ?? SqlString.Null;
+            var level = requestEmployee.Level ?? SqlString.Null;
+            var status = requestEmployee.Status ?? SqlString.Null;
+
+            List<DataEmployee> lista =  _employeeRepository.GetFile(competency, level, status, requestEmployee.GPN, requestEmployee.IdEmployee, requestEmployee.Page, requestEmployee.PageSize);
+
+            generalFile file = new generalFile();
+            
+
+            return file.WirteFileCSV(lista, "Employee");
         }
     }
 }
