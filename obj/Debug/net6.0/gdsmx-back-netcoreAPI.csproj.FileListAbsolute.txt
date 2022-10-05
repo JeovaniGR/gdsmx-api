@@ -181,6 +181,8 @@ E:\Repos\obj\Debug\net6.0\refint\gdsmx-back-netcoreAPI.dll
 E:\Repos\obj\Debug\net6.0\gdsmx-back-netcoreAPI.pdb
 E:\Repos\obj\Debug\net6.0\gdsmx-back-netcoreAPI.genruntimeconfig.cache
 E:\Repos\obj\Debug\net6.0\ref\gdsmx-back-netcoreAPI.dll
+<<<<<<< HEAD
+=======
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\appsettings.json
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\gdsmx-back-netcoreAPI.exe
@@ -188,6 +190,9 @@ C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\gdsmx-back-ne
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\gdsmx-back-netcoreAPI.runtimeconfig.json
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\gdsmx-back-netcoreAPI.dll
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\gdsmx-back-netcoreAPI.pdb
+C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\ClosedXML.dll
+C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\ExcelNumberFormat.dll
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\Humanizer.dll
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
@@ -210,6 +215,7 @@ C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\Swashbuckle.A
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\System.Drawing.Common.dll
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\System.IO.Packaging.dll
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\System.Runtime.Caching.dll
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\System.Security.Permissions.dll
@@ -226,6 +232,7 @@ C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\runtimes\win\
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+>>>>>>> ExcelBranch
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\obj\Debug\net6.0\gdsmx-back-netcoreAPI.csproj.AssemblyReference.cache
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\obj\Debug\net6.0\gdsmx-back-netcoreAPI.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\PP882TG\source\repos\JeovaniGR\gdsmx-api\obj\Debug\net6.0\gdsmx-back-netcoreAPI.AssemblyInfoInputs.cache

@@ -1,6 +1,6 @@
 ﻿namespace gdsmx_back_netcoreAPI.DTO
 {
-    public class RequestEmployee
+    public class RequestEmployee : RequestEmployeeMain
     {
         public string GPN { get; set; }
         public int IdEmployee { get; set; }
