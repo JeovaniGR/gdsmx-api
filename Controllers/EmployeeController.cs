@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using gdsmx_back_netcoreAPI.Models;
 using gdsmx_back_netcoreAPI.BL.Interfaces;
 using gdsmx_back_netcoreAPI.DTO;
+using System.Linq;
 
 namespace gdsmx_back_netcoreAPI.Controllers
 {
@@ -19,9 +20,15 @@ namespace gdsmx_back_netcoreAPI.Controllers
 
         [HttpPost]
         [HttpPost("GetAll")]
-        public ActionResult<IEnumerable<DataEmployee>> GetEmployees(RequestEmployee requestEmployee)
+        public IActionResult GetEmployees(RequestEmployee requestEmployee)
         {
             var employees = _bLEmployee.Get(requestEmployee);
+
+            if (employees == null)
+            {
+                return NotFound("No se encontró ningún empleado");
+            }
+
             return Ok(employees);
         }
     }
