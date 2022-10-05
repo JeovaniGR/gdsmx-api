@@ -6,7 +6,7 @@ namespace gdsmx_back_netcoreAPI.BL.Interfaces
     public interface IBLEmployee
     {
         ActionResult<IEnumerable<DataEmployee>> Get(RequestEmployee resquestEmployee);
-        bool GetFile(RequestEmployee resquestEmployee);
+        byte[] GetExportFile(RequestEmployee resquestEmployee);
 
 
     }

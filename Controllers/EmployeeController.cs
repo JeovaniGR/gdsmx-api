@@ -25,11 +25,16 @@ namespace gdsmx_back_netcoreAPI.Controllers
             return Ok(employees);
         }
 
-        [HttpPost("GetAllFile")]
-        public ActionResult GetEmployeesFile(RequestEmployee requestEmployee)
+        
+
+        [HttpPost("GetExport")]
+        public ActionResult GetExport(RequestEmployee requestEmployee)
         {
-            var ok = _bLEmployee.GetFile(requestEmployee);
-            return Ok(ok);
+            if(requestEmployee.FileType == 1)
+             return File(_bLEmployee.GetExportFile(requestEmployee), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Employee"+DateTime.Now.ToShortDateString()+".xlsx");
+            else
+             return File(_bLEmployee.GetExportFile(requestEmployee), "Text/csv", "Employee" + DateTime.Now.ToShortDateString() + ".csv");
+
         }
     }
 }
