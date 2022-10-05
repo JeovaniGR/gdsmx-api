@@ -5,6 +5,7 @@ using gdsmx_back_netcoreAPI.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Text;
 
 namespace gdsmx_back_netcoreAPI.BL.Implementation
 {

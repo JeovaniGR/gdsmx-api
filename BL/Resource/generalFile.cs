@@ -10,46 +10,48 @@ namespace gdsmx_back_netcoreAPI.BL.Resource
         public byte[] WirteFileCSV(List<DataEmployee> Employeelist)
         {
             var sb = new StringBuilder();
-
-            sb.AppendLine("GNP," +
-                        "FirstName," +
-                        "MiddleName," +
-                        "LastName," +
-                        "SecondLastName," +
-                        "Birthdate," +
+            sb.AppendLine("GNP|" +
+                        "FirstName|" +
+                        "MiddleName|" +
+                        "LastName|" +
+                        "SecondLastName|" +
+                        "Birthdate|" +
                         "JoinedDate," +
-                        "Email," +
-                        "Counselor," +
-                        "Location," +
-                        "PersonSegment," +
-                        "Competency," +
-                        "Status," +
-                        "Rank," +
-                        "Level," +
-                        "Grade");
+                        "Email|" +
+                        "Counselor|" +
+                        "Location|" +
+                        "PersonSegment|" +
+                        "Competency|" +
+                        "Status|" +
+                        "Rank|" +
+                        "Level|" +
+                        "Grade|" +
+                        "Notes");
 
             foreach (var item in Employeelist)
             {
-                sb.AppendLine($"{item.GPN}," +
-                            $"{item.FirstName}," +
-                            $"{item.MiddleName}," +
-                            $"{item.LastName}," +
-                            $"{item.SecondLastName}," +
-                            $"{item.Birthdate}," +
-                            $"{item.JoinedDate}," +
-                            $"{item.Email}," +
-                            $"{item.Counselor}," +
-                            $"{item.Location}," +
-                            $"{item.PersonSegment}," +
-                            $"{item.Competency}," +
-                            $"{item.Status}," +
-                            $"{item.Rank}," +
-                            $"{item.Level}," +
-                            $"{item.Grade}");
+                sb.AppendLine($"{item.GPN}|" +
+                            $"{item.FirstName}|" +
+                            $"{item.MiddleName}|" +
+                            $"{item.LastName}|" +
+                            $"{item.SecondLastName}|" +
+                            $"{item.Birthdate}|" +
+                            $"{item.JoinedDate}|" +
+                            $"{item.Email}|" +
+                            $"{item.Counselor}|" +
+                            $"{item.Location}|" +
+                            $"{item.PersonSegment}|" +
+                            $"{item.Competency}|" +
+                            $"{item.Status}|" +
+                            $"{item.Rank}|" +
+                            $"{item.Level}|" +
+                            $"{item.Grade}|" +
+                            $"{item.Notes}");
 
 
             }
 
+           
             return Encoding.UTF8.GetBytes(sb.ToString());
         }
 

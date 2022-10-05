@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using gdsmx_back_netcoreAPI.Models;
 using gdsmx_back_netcoreAPI.BL.Interfaces;
 using gdsmx_back_netcoreAPI.DTO;
+using System.Text;
 
 namespace gdsmx_back_netcoreAPI.Controllers
 {
@@ -31,9 +32,9 @@ namespace gdsmx_back_netcoreAPI.Controllers
         public ActionResult GetExport(RequestEmployee requestEmployee)
         {
             if(requestEmployee.FileType == 1)
-             return File(_bLEmployee.GetExportFile(requestEmployee), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Employee"+DateTime.Now.ToShortDateString()+".xlsx");
+             return File(_bLEmployee.GetExportFile(requestEmployee), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Employee"+DateTime.Now.ToString("yyyyMMdd_HHmm") + ".xlsx");
             else
-             return File(_bLEmployee.GetExportFile(requestEmployee), "Text/csv", "Employee" + DateTime.Now.ToShortDateString() + ".csv");
+             return File(_bLEmployee.GetExportFile(requestEmployee), "Text/CSV", "Employee" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".csv");
 
         }
     }
