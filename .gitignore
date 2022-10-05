@@ -9,9 +9,6 @@
 *.user
 *.userosscache
 *.sln.docstates
-obj/staticwebassets.pack.sentinel
-.vs/gdsmx-back-netcoreAPI/v17/.suo
-.vs/gdsmx-back-netcoreAPI/DesignTimeBuild/.dtbcache.v2
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
