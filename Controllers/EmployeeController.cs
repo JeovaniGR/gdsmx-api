@@ -17,9 +17,8 @@ namespace gdsmx_back_netcoreAPI.Controllers
             _bLEmployee = bLEmployee;
         }
 
-        [HttpPost]
-        [HttpPost("GetAll")]
-        public IActionResult GetEmployees(RequestEmployee requestEmployee)
+        [HttpGet]
+        public IActionResult GetEmployees([FromQuery]RequestEmployee requestEmployee)
         {
             var employees = _bLEmployee.Get(requestEmployee);
 
@@ -33,8 +32,8 @@ namespace gdsmx_back_netcoreAPI.Controllers
 
         
 
-        [HttpPost("Export")]
-        public IActionResult GetExport(RequestEmployeeExport requestEmployee)
+        [HttpGet("Export")]
+        public IActionResult GetExport([FromQuery]RequestEmployeeExport requestEmployee)
         {
             if (requestEmployee.FileType == 1)
              return File(_bLEmployee.GetExportFile(requestEmployee), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Employee_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".xlsx");
