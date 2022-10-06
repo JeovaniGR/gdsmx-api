@@ -33,13 +33,13 @@ namespace gdsmx_back_netcoreAPI.Controllers
 
         
 
-        [HttpPost("GetExport")]
-        public ActionResult GetExport(RequestEmployee requestEmployee)
+        [HttpPost("Export")]
+        public IActionResult GetExport(RequestEmployeeExport requestEmployee)
         {
-            if(requestEmployee.FileType == 1)
-             return File(_bLEmployee.GetExportFile(requestEmployee), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Employee"+DateTime.Now.ToString("yyyyMMdd_HHmm") + ".xlsx");
+            if (requestEmployee.FileType == 1)
+             return File(_bLEmployee.GetExportFile(requestEmployee), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Employee_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".xlsx");
             else
-             return File(_bLEmployee.GetExportFile(requestEmployee), "Text/CSV", "Employee" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".csv");
+             return File(_bLEmployee.GetExportFile(requestEmployee), "Text/CSV", "Employee_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".csv");
 
         }
     }
