@@ -22,9 +22,9 @@ namespace gdsmx_back_netcoreAPI.Controllers
         {
             var employees = _bLEmployee.Get(requestEmployee);
 
-            if (employees == null)
+            if (!employees.Value.Any())
             {
-                return NotFound("No se encontró ningún empleado");
+                return NotFound("Employee information not found.");
             }
 
             return Ok(employees);
