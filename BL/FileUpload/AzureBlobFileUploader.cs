@@ -12,13 +12,20 @@ namespace gdsmx_back_netcoreAPI.BL.FileUpload
         private BlobContainerClient _containerClient;
         private BlobClient _blobClient;
 
-        public AzureBlobFileUploader()
+        public AzureBlobFileUploader(string containerName)
         {
             _blobServiceClient = new BlobServiceClient(
                 new Uri("https://gdsmxdemostrgacnt.blob.core.windows.net"),
                 new DefaultAzureCredential());
-            _containerName = "TestBlobs";
-        }   
+            _containerName = containerName;
+        }
+
+        public AzureBlobFileUploader(BlobServiceClient blobServiceClient, string containerName)
+        {
+            _blobServiceClient = blobServiceClient;
+            _containerName= containerName;
+        }
+
         public async void UploadFile(IFormFile file)
         {
             CreateContainerClient();
