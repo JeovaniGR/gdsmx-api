@@ -6,5 +6,6 @@ namespace gdsmx_back_netcoreAPI.Data.Repositories
     public interface IEmployeeRepository
     {
         ActionResult<IEnumerable<DataEmployee>> Get(object competency, object level, object status, string GPN, int idEmployee, int page, int pageSize);
+        List<DataEmployee> GetFile(object competency, object level, object status, string GPN, int idEmployee, int page, int pageSize);
     }
 }

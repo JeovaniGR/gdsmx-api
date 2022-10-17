@@ -28,5 +28,18 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
                                 new SqlParameter("@RowsOfPage", pageSize)).ToList();
             return employeesList;
         }
+
+        public List<DataEmployee> GetFile(object competency, object level, object status, string GPN, int idEmployee, int page, int pageSize)
+        {
+            List<DataEmployee> employeesList = _context.Set<DataEmployee>().FromSqlRaw("SP_GetEmployee @filterCompetency, @filterRank, @filterStatus, @IdEmployee, @GPN, @PageNumber, @RowsOfPage",
+                                new SqlParameter("@filterCompetency", competency),
+                                new SqlParameter("@filterRank", level),
+                                new SqlParameter("@filterStatus", status),
+                                new SqlParameter("@IdEmployee", idEmployee),
+                                new SqlParameter("@GPN", GPN),
+                                new SqlParameter("@PageNumber", page),
+                                new SqlParameter("@RowsOfPage", pageSize)).ToList();
+            return employeesList;
+        }
     }
 }

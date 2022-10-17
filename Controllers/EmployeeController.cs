@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using gdsmx_back_netcoreAPI.Models;
 using gdsmx_back_netcoreAPI.BL.Interfaces;
 using gdsmx_back_netcoreAPI.DTO;
-using System.Linq;
 
 namespace gdsmx_back_netcoreAPI.Controllers
 {
@@ -18,18 +17,29 @@ namespace gdsmx_back_netcoreAPI.Controllers
             _bLEmployee = bLEmployee;
         }
 
-        [HttpPost]
-        [HttpPost("GetAll")]
-        public IActionResult GetEmployees(RequestEmployee requestEmployee)
+        [HttpGet]
+        public IActionResult GetEmployees([FromQuery]RequestEmployee requestEmployee)
         {
             var employees = _bLEmployee.Get(requestEmployee);
 
-            if (employees == null)
+            if (!employees.Value.Any())
             {
-                return NotFound("No se encontró ningún empleado");
+                return NotFound("Employee information not found.");
             }
 
             return Ok(employees);
+        }
+
+        
+
+        [HttpGet("Export")]
+        public IActionResult GetExport([FromQuery]RequestEmployeeExport requestEmployee)
+        {
+            if (requestEmployee.FileType == 1)
+             return File(_bLEmployee.GetExportFile(requestEmployee), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Employee_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".xlsx");
+            else
+             return File(_bLEmployee.GetExportFile(requestEmployee), "Text/CSV", "Employee_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".csv");
+
         }
     }
 }
