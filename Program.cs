@@ -16,6 +16,12 @@ builder.Services.AddTransient<IBLEmployee, BLEmployee>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Host.ConfigureLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.AddConsole();
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -3,6 +3,7 @@ using gdsmx_back_netcoreAPI.BL.Resource;
 using gdsmx_back_netcoreAPI.Data.Repositories;
 using gdsmx_back_netcoreAPI.DTO;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Text;
@@ -23,7 +24,18 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
             var level = requestEmployee.Level ?? SqlString.Null;
             var status = requestEmployee.Status ?? SqlString.Null;
 
-            return _employeeRepository.Get(competency, level, status, requestEmployee.GPN, requestEmployee.IdEmployee, requestEmployee.Page, requestEmployee.PageSize);
+            //Temporary solution for engagement dummy info
+            var employeeList = _employeeRepository.Get(competency, level, status, requestEmployee.GPN, requestEmployee.IdEmployee, requestEmployee.Page, requestEmployee.PageSize);
+ 
+            foreach (var employee in employeeList.Value)
+            {
+                employee.Engagement = employee.Status == "Billable" ? "TalentOps Project" : ""; 
+            }
+
+            return employeeList;
+            //Temporary solution for engagement dummy info
+
+            //return _employeeRepository.Get(competency, level, status, requestEmployee.GPN, requestEmployee.IdEmployee, requestEmployee.Page, requestEmployee.PageSize);
         }
 
         public byte[] GetExportFile(RequestEmployeeExport requestEmployee)
@@ -42,6 +54,12 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
                 return file.WriteFileCSV(employeesList);
         }
 
-       
+        public ActionResult<IEnumerable<DataEmployeeSkill>> GetSkills(RequestEmployeeSkill requestEmployeeSkill)
+        {
+            var skill = requestEmployeeSkill.Skill ?? SqlString.Null;
+            var rank = requestEmployeeSkill.Rank ?? SqlString.Null;
+
+            return _employeeRepository.GetSkills(requestEmployeeSkill.IdEmployee, requestEmployeeSkill.Option, skill, rank, requestEmployeeSkill.Page, requestEmployeeSkill.PageSize);
+        }
     }
 }
