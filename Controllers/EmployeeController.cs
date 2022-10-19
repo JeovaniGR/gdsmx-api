@@ -80,5 +80,76 @@ namespace gdsmx_back_netcoreAPI.Controllers
             }
 
         }
+
+        [HttpGet("{gpn}/badges")]
+        public IActionResult GetBadges(string gpn)
+        {
+            try
+            {
+                var employeeBadges = GetRandomEmployeeBadges(gpn);
+                return Ok(employeeBadges);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error in GetBadges, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
+        }
+
+        private DataEmployeeBadges GetRandomEmployeeBadges(string gpn)
+        {
+            var random = new Random();
+            var option = random.Next(1, 4);
+            var employeeBadges = new DataEmployeeBadges();
+            employeeBadges.GPN = gpn;
+            switch (option)
+            {
+                case 1:
+                    employeeBadges.Badges = new List<DataBadge>
+                    {
+                        new DataBadge("Azure", "Bronze"),
+                        new DataBadge("Cloud", "Bronze"),
+                        new DataBadge("Blockchain", "Bronze")
+                    };
+                    break;
+                case 2:
+                    employeeBadges.Badges = new List<DataBadge>();
+                    break;
+                case 3:
+                    employeeBadges.Badges = new List<DataBadge>
+                    {
+                        new DataBadge("Data Integration", "Bronze")
+                    };
+                    break;
+            }
+            return employeeBadges;
+
+        }
+
+        [HttpGet("{gpn}/certifications")]
+        public IActionResult GetCertifications(string gpn)
+        {
+            try
+            {
+                var employeeCertifications = new DataEmployeeCertifications();
+                employeeCertifications.GPN = gpn;
+                employeeCertifications.Certifications = new List<DataCertification>
+                {
+                    new DataCertification("Azure", "Microsoft"),
+                    new DataCertification("Cloud", "Amazon"),
+                    new DataCertification("Blockchain", "Google")
+                };
+                return Ok(employeeCertifications);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error in GetCertifications, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
+        }
+
+
     }
 }
