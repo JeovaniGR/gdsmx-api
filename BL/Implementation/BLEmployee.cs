@@ -61,5 +61,13 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
 
             return _employeeRepository.GetSkills(requestEmployeeSkill.IdEmployee, requestEmployeeSkill.Option, skill, rank, requestEmployeeSkill.Page, requestEmployeeSkill.PageSize);
         }
+
+        public ActionResult<IEnumerable<DataEmployeeBadge>> GetBadges(RequestEmployeeBadge request)
+        {
+            var level = request.Level ?? SqlString.Null;
+            var status = request.Status ?? SqlString.Null;
+
+            return _employeeRepository.GetBadges(request.IdEmployee, level, status, request.Page, request.PageSize);
+        }
     }
 }

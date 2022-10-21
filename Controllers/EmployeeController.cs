@@ -81,12 +81,33 @@ namespace gdsmx_back_netcoreAPI.Controllers
 
         }
 
-        [HttpGet("{gpn}/badges")]
+        [HttpGet("{gpn}/badges/test")]
         public IActionResult GetBadges(string gpn)
         {
             try
             {
                 var employeeBadges = GetRandomEmployeeBadges(gpn);
+                return Ok(employeeBadges);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error in GetBadges, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
+        }
+        [HttpGet("badges")]
+        public IActionResult GetBadges([FromQuery] RequestEmployeeBadge request)
+        {
+            try
+            {
+                var employeeBadges = _bLEmployee.GetBadges(request);
+
+                if (!employeeBadges.Value.Any())
+                {
+                    return NotFound("Employee's badges information not found.");
+                }
+
                 return Ok(employeeBadges);
             }
             catch (Exception ex)
@@ -127,7 +148,7 @@ namespace gdsmx_back_netcoreAPI.Controllers
 
         }
 
-        [HttpGet("{gpn}/certifications")]
+        [HttpGet("{gpn}/certifications/test")]
         public IActionResult GetCertifications(string gpn)
         {
             try
