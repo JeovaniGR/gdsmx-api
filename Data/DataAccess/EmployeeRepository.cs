@@ -65,5 +65,19 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
             return employeeBadgeList;
         }
 
+        public ActionResult<IEnumerable<DataEmployeeCertification>> GetCertifications(int idEmployee, int option, DateTime? startDate, DateTime? endDate, object certification, int page, int pageSize)
+        {
+            List<DataEmployeeCertification> employeeCertificationList = _context.Set<DataEmployeeCertification>().
+                FromSqlRaw("SP_GetEmployeeCertification @IdEmployee, @Option, @StartDate, @EndDate, @filterCertification, @PageNumber, @RowsOfPage",
+                new SqlParameter("@IdEmployee", idEmployee),
+                new SqlParameter("@Option", option),
+                new SqlParameter("@StartDate", startDate),
+                new SqlParameter("@EndDate", endDate),
+                new SqlParameter("@filterCertification", certification),
+                new SqlParameter("@PageNumber", page),
+                new SqlParameter("@RowsOfPage", pageSize)).ToList();
+            return employeeCertificationList;
+        }
+
     }
 }

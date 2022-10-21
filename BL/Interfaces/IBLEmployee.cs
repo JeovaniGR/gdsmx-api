@@ -8,7 +8,7 @@ namespace gdsmx_back_netcoreAPI.BL.Interfaces
         ActionResult<IEnumerable<DataEmployee>> Get(RequestEmployee resquestEmployee);
         byte[] GetExportFile(RequestEmployeeExport resquestEmployee);
         ActionResult<IEnumerable<DataEmployeeSkill>> GetSkills(RequestEmployeeSkill requestEmployeeSkill);
-        ActionResult<IEnumerable<DataEmployeeBadge>> GetBadges(RequestEmployeeBadge requestBadge);
-        
+        ActionResult<IEnumerable<DataEmployeeBadge>> GetBadges(RequestEmployeeBadge request);
+        ActionResult<IEnumerable<DataEmployeeCertification>> GetCertifications(RequestEmployeeCertification request);
     }
 }

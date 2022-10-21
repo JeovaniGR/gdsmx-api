@@ -69,5 +69,12 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
 
             return _employeeRepository.GetBadges(request.IdEmployee, level, status, request.Page, request.PageSize);
         }
+
+        public ActionResult<IEnumerable<DataEmployeeCertification>> GetCertifications(RequestEmployeeCertification request)
+        {
+            var certification = request.Certification ?? SqlString.Null;
+
+            return _employeeRepository.GetCertifications(request.IdEmployee, request.Option, request.StartDate, request.EndDate, certification, request.Page, request.PageSize);
+        }
     }
 }

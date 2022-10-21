@@ -118,6 +118,28 @@ namespace gdsmx_back_netcoreAPI.Controllers
             }
         }
 
+        [HttpGet("Certifications")]
+        public IActionResult GetCertifications([FromQuery] RequestEmployeeCertification request)
+        {
+            try
+            {
+                var employeeCertifications = _bLEmployee.GetCertifications(request);
+
+                if (!employeeCertifications.Value.Any())
+                {
+                    return NotFound("Employee's certifications information not found.");
+                }
+
+                return Ok(employeeCertifications);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error in GetCertifications, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
+        }
+
         private DataEmployeeBadges GetRandomEmployeeBadges(string gpn)
         {
             var random = new Random();
