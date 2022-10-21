@@ -53,5 +53,17 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
                                 new SqlParameter("@RowsOfPage", pageSize)).ToList();
             return employeeSkillList;
         }
+
+        public ActionResult<IEnumerable<DataEmployeeBadge>> GetBadges(int idEmployee, object level, object status, int page, int pageSize)
+        {
+            List<DataEmployeeBadge> employeeBadgeList = _context.Set<DataEmployeeBadge>().FromSqlRaw("SP_GetEmployeeBadge @IdEmployee, @filterLevel, @filterStatus, @PageNumber, @RowsOfPage",
+                new SqlParameter("@IdEmployee", idEmployee),
+                new SqlParameter("@filterLevel", level),
+                new SqlParameter("@filterStatus", status),
+                new SqlParameter("@PageNumber", page),
+                new SqlParameter("@RowsOfPage", pageSize)).ToList();
+            return employeeBadgeList;
+        }
+
     }
 }
