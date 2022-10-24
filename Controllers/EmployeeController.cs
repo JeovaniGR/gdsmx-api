@@ -58,12 +58,12 @@ namespace gdsmx_back_netcoreAPI.Controllers
             }
         }
 
-        [HttpGet("Skills")]
-        public IActionResult GetSkills([FromQuery] RequestEmployeeSkill requestEmployeeSkill)
+        [HttpGet("{gpn}/Skills")]
+        public IActionResult GetSkills(string gpn, [FromQuery] RequestEmployeeSkill requestEmployeeSkill)
         {
             try
             {
-                var employeeSkills = _bLEmployee.GetSkills(requestEmployeeSkill);
+                var employeeSkills = _bLEmployee.GetSkills(gpn, requestEmployeeSkill);
 
                 if (!employeeSkills.Value.Any())
                 {
@@ -81,7 +81,7 @@ namespace gdsmx_back_netcoreAPI.Controllers
 
         }
 
-        [HttpGet("{gpn}/badges")]
+        [HttpGet("{gpn}/Badges")]
         public IActionResult GetBadges(string gpn)
         {
             try
@@ -127,19 +127,12 @@ namespace gdsmx_back_netcoreAPI.Controllers
 
         }
 
-        [HttpGet("{gpn}/certifications")]
+        [HttpGet("{gpn}/Certifications")]
         public IActionResult GetCertifications(string gpn)
         {
             try
             {
-                var employeeCertifications = new DataEmployeeCertifications();
-                employeeCertifications.GPN = gpn;
-                employeeCertifications.Certifications = new List<DataCertification>
-                {
-                    new DataCertification("Azure", "Microsoft"),
-                    new DataCertification("Cloud", "Amazon"),
-                    new DataCertification("Blockchain", "Google")
-                };
+                var employeeCertifications = GetRandomEmployeeCertifications(gpn);                
                 return Ok(employeeCertifications);
             }
             catch (Exception ex)
@@ -150,6 +143,34 @@ namespace gdsmx_back_netcoreAPI.Controllers
             }
         }
 
+        private DataEmployeeCertifications GetRandomEmployeeCertifications(string gpn)
+        {
+            var random = new Random();
+            var option = random.Next(1, 4);
+            var employeeCertifications = new DataEmployeeCertifications();
+            employeeCertifications.GPN = gpn;
+            switch (option)
+            {
+                case 1:
+                    employeeCertifications.Certifications = new List<DataCertification>
+                    {
+                        new DataCertification("Azure", "Microsoft"),
+                        new DataCertification("Cloud", "Amazon"),
+                        new DataCertification("Blockchain", "Google")
+                    };
+                    break;
+                case 2:
+                    employeeCertifications.Certifications = new List<DataCertification>();
+                    break;
+                case 3:
+                    employeeCertifications.Certifications = new List<DataCertification>
+                    {
+                        new DataCertification("Blockchain", "Google")
+                    };
+                    break;
+            }
+            return employeeCertifications;
 
+        }
     }
 }

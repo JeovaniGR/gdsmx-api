@@ -42,6 +42,12 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
             return employeesList;
         }
 
+        public int GetEmployeeByGPN(string gpn)
+        {
+            var employee = _context.Employees.Where(x => x.Gpn == gpn).FirstOrDefault();
+
+            return employee == null ? 0 : employee.IdEmployee;
+        }
         public ActionResult<IEnumerable<DataEmployeeSkill>> GetSkills(int idEmployee, int option, object skill, object rank, int page, int pageSize)
         {
             List<DataEmployeeSkill> employeeSkillList = _context.Set<DataEmployeeSkill>().FromSqlRaw("SP_GetEmployeeSkill @IdEmployee, @Option, @filterSkill, @filterRank, @PageNumber, @RowsOfPage",
