@@ -37,8 +37,8 @@ namespace gdsmx_back_netcoreAPI.Models
         public virtual DbSet<LevelSubCatalog> LevelSubCatalogs { get; set; } = null!;
         public virtual DbSet<Location> Locations { get; set; } = null!;
         public virtual DbSet<PersonSegmentCatalog> PersonSegmentCatalogs { get; set; } = null!;
-
         public virtual DbSet<DataEmployee> DataEmployees { get; set; } = null!;
+        public virtual DbSet<DataEmployeeSkill> DataEmployeeSkills { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -65,6 +65,22 @@ namespace gdsmx_back_netcoreAPI.Models
                 entity.Property(e => e.Level);
                 entity.Property(e => e.Grade);
                 entity.Property(e => e.Notes);
+            });
+
+            //Context for SP_GetEmployeeSkill
+            modelBuilder.Entity<DataEmployeeSkill>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.IdEmployee);
+                entity.Property(e => e.GPN);
+                entity.Property(e => e.FirstName);
+                entity.Property(e => e.MiddleName);
+                entity.Property(e => e.LastName);
+                entity.Property(e => e.SecondLastName);
+                entity.Property(e => e.DescriptionSkill);
+                entity.Property(e => e.IsPrimarySkill);
+                entity.Property(e => e.DescriptionRank);
             });
 
             modelBuilder.Entity<BadgeCategory>(entity =>

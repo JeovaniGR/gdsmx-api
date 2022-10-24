@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using gdsmx_back_netcoreAPI.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using gdsmx_back_netcoreAPI.BL.Interfaces;
 using gdsmx_back_netcoreAPI.DTO;
+<<<<<<< HEAD
 using System.Linq;
+=======
+>>>>>>> 5ae7aba4c7fbfc73bdb903dcf6967803797ce3bc
 
 namespace gdsmx_back_netcoreAPI.Controllers
 {
@@ -12,36 +13,147 @@ namespace gdsmx_back_netcoreAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IBLEmployee _bLEmployee;
+        private readonly ILogger<EmployeeController> _logger;
 
-        public EmployeeController(IBLEmployee bLEmployee)
+        public EmployeeController(IBLEmployee bLEmployee, ILogger<EmployeeController> logger)
         {
             _bLEmployee = bLEmployee;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        [HttpPost]
-        [HttpPost("GetAll")]
-        public IActionResult GetEmployees(RequestEmployee requestEmployee)
+        [HttpGet]
+        public IActionResult GetEmployees([FromQuery]RequestEmployee requestEmployee)
         {
-            var employees = _bLEmployee.Get(requestEmployee);
-
-            if (employees == null)
+            try
             {
-                return NotFound("No se encontró ningún empleado");
+                var employees = _bLEmployee.Get(requestEmployee);
+
+                if (!employees.Value.Any())
+                {
+                    return NotFound("Employee information not found.");
+                }
+
+                return Ok(employees);
+            }
+            catch(Exception ex)
+            {
+                string message = $"Error in GetEmployees, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
+            
+        }
+
+        [HttpGet("Export")]
+        public IActionResult GetExport([FromQuery]RequestEmployeeExport requestEmployee)
+        {
+            try
+            {
+                if (requestEmployee.FileType == 1)
+                    return File(_bLEmployee.GetExportFile(requestEmployee), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Employee_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".xlsx");
+                else
+                    return File(_bLEmployee.GetExportFile(requestEmployee), "Text/CSV", "Employee_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".csv");
+            }
+            catch(Exception ex)
+            {
+                string message = $"Error in GetExport, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
+        }
+
+        [HttpGet("Skills")]
+        public IActionResult GetSkills([FromQuery] RequestEmployeeSkill requestEmployeeSkill)
+        {
+            try
+            {
+                var employeeSkills = _bLEmployee.GetSkills(requestEmployeeSkill);
+
+                if (!employeeSkills.Value.Any())
+                {
+                    return NotFound("Employee's skills information not found.");
+                }
+
+                return Ok(employeeSkills);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error in GetSkills, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
             }
 
-            return Ok(employees);
         }
 
-        
-
-        [HttpPost("GetExport")]
-        public ActionResult GetExport(RequestEmployee requestEmployee)
+        [HttpGet("{gpn}/badges")]
+        public IActionResult GetBadges(string gpn)
         {
-            if(requestEmployee.FileType == 1)
-             return File(_bLEmployee.GetExportFile(requestEmployee), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Employee"+DateTime.Now.ToString("yyyyMMdd_HHmm") + ".xlsx");
-            else
-             return File(_bLEmployee.GetExportFile(requestEmployee), "Text/CSV", "Employee" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".csv");
+            try
+            {
+                var employeeBadges = GetRandomEmployeeBadges(gpn);
+                return Ok(employeeBadges);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error in GetBadges, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
+        }
+
+        private DataEmployeeBadges GetRandomEmployeeBadges(string gpn)
+        {
+            var random = new Random();
+            var option = random.Next(1, 4);
+            var employeeBadges = new DataEmployeeBadges();
+            employeeBadges.GPN = gpn;
+            switch (option)
+            {
+                case 1:
+                    employeeBadges.Badges = new List<DataBadge>
+                    {
+                        new DataBadge("Azure", "Bronze"),
+                        new DataBadge("Cloud", "Bronze"),
+                        new DataBadge("Blockchain", "Bronze")
+                    };
+                    break;
+                case 2:
+                    employeeBadges.Badges = new List<DataBadge>();
+                    break;
+                case 3:
+                    employeeBadges.Badges = new List<DataBadge>
+                    {
+                        new DataBadge("Data Integration", "Bronze")
+                    };
+                    break;
+            }
+            return employeeBadges;
 
         }
+
+        [HttpGet("{gpn}/certifications")]
+        public IActionResult GetCertifications(string gpn)
+        {
+            try
+            {
+                var employeeCertifications = new DataEmployeeCertifications();
+                employeeCertifications.GPN = gpn;
+                employeeCertifications.Certifications = new List<DataCertification>
+                {
+                    new DataCertification("Azure", "Microsoft"),
+                    new DataCertification("Cloud", "Amazon"),
+                    new DataCertification("Blockchain", "Google")
+                };
+                return Ok(employeeCertifications);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error in GetCertifications, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
+        }
+
+
     }
 }

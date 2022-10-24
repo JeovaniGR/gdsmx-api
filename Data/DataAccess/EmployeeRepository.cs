@@ -41,5 +41,17 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
                                 new SqlParameter("@RowsOfPage", pageSize)).ToList();
             return employeesList;
         }
+
+        public ActionResult<IEnumerable<DataEmployeeSkill>> GetSkills(int idEmployee, int option, object skill, object rank, int page, int pageSize)
+        {
+            List<DataEmployeeSkill> employeeSkillList = _context.Set<DataEmployeeSkill>().FromSqlRaw("SP_GetEmployeeSkill @IdEmployee, @Option, @filterSkill, @filterRank, @PageNumber, @RowsOfPage",
+                                new SqlParameter("@IdEmployee", idEmployee),
+                                new SqlParameter("@Option", option),
+                                new SqlParameter("@filterSkill", skill),
+                                new SqlParameter("@filterRank", rank),
+                                new SqlParameter("@PageNumber", page),
+                                new SqlParameter("@RowsOfPage", pageSize)).ToList();
+            return employeeSkillList;
+        }
     }
 }
