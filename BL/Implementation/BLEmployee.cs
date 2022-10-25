@@ -2,6 +2,7 @@
 using gdsmx_back_netcoreAPI.BL.Resource;
 using gdsmx_back_netcoreAPI.Data.Repositories;
 using gdsmx_back_netcoreAPI.DTO;
+using gdsmx_back_netcoreAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -77,6 +78,43 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
             }
 
             return _employeeRepository.GetSkills(requestEmployeeSkill.IdEmployee, requestEmployeeSkill.Option, skill, rank, requestEmployeeSkill.Page, requestEmployeeSkill.PageSize);
+        }
+
+        public ActionResult<IEnumerable<DataEmployeeBadge>> GetBadges(string gpn, RequestEmployeeBadge request)
+        {
+            var level = request.Level ?? SqlString.Null;
+            var status = request.Status ?? SqlString.Null;
+
+            int idEmployee = _employeeRepository.GetEmployeeByGPN(gpn);
+
+            if (idEmployee == 0)
+            {
+                return new List<DataEmployeeBadge>();
+            }
+            else
+            {
+                request.IdEmployee = idEmployee;
+            }
+
+            return _employeeRepository.GetBadges(request.IdEmployee, level, status, request.Page, request.PageSize);
+        }
+
+        public ActionResult<IEnumerable<DataEmployeeCertification>> GetCertifications(string gpn, RequestEmployeeCertification request)
+        {
+            var certification = request.Certification ?? SqlString.Null;
+
+            int idEmployee = _employeeRepository.GetEmployeeByGPN(gpn);
+
+            if (idEmployee == 0)
+            {
+                return new List<DataEmployeeCertification>();
+            }
+            else
+            {
+                request.IdEmployee = idEmployee;
+            }
+
+            return _employeeRepository.GetCertifications(request.IdEmployee, request.Option, request.StartDate, request.EndDate, certification, request.Page, request.PageSize);
         }
     }
 }

@@ -59,5 +59,31 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
                                 new SqlParameter("@RowsOfPage", pageSize)).ToList();
             return employeeSkillList;
         }
+
+        public ActionResult<IEnumerable<DataEmployeeBadge>> GetBadges(int idEmployee, object level, object status, int page, int pageSize)
+        {
+            List<DataEmployeeBadge> employeeBadgeList = _context.Set<DataEmployeeBadge>().FromSqlRaw("SP_GetEmployeeBadge @IdEmployee, @filterLevel, @filterStatus, @PageNumber, @RowsOfPage",
+                new SqlParameter("@IdEmployee", idEmployee),
+                new SqlParameter("@filterLevel", level),
+                new SqlParameter("@filterStatus", status),
+                new SqlParameter("@PageNumber", page),
+                new SqlParameter("@RowsOfPage", pageSize)).ToList();
+            return employeeBadgeList;
+        }
+
+        public ActionResult<IEnumerable<DataEmployeeCertification>> GetCertifications(int idEmployee, int option, DateTime? startDate, DateTime? endDate, object certification, int page, int pageSize)
+        {
+            List<DataEmployeeCertification> employeeCertificationList = _context.Set<DataEmployeeCertification>().
+                FromSqlRaw("SP_GetEmployeeCertification @IdEmployee, @Option, @StartDate, @EndDate, @filterCertification, @PageNumber, @RowsOfPage",
+                new SqlParameter("@IdEmployee", idEmployee),
+                new SqlParameter("@Option", option),
+                new SqlParameter("@StartDate", startDate),
+                new SqlParameter("@EndDate", endDate),
+                new SqlParameter("@filterCertification", certification),
+                new SqlParameter("@PageNumber", page),
+                new SqlParameter("@RowsOfPage", pageSize)).ToList();
+            return employeeCertificationList;
+        }
+
     }
 }

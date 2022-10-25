@@ -81,7 +81,7 @@ namespace gdsmx_back_netcoreAPI.Controllers
 
         }
 
-        [HttpGet("{gpn}/Badges")]
+        [HttpGet("{gpn}/badges/test")]
         public IActionResult GetBadges(string gpn)
         {
             try
@@ -92,6 +92,49 @@ namespace gdsmx_back_netcoreAPI.Controllers
             catch (Exception ex)
             {
                 string message = $"Error in GetBadges, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
+        }
+        [HttpGet("{gpn}/Badges")]
+        public IActionResult GetBadges(string gpn, [FromQuery] RequestEmployeeBadge request)
+        {
+            try
+            {
+                var employeeBadges = _bLEmployee.GetBadges(gpn, request);
+
+                if (!employeeBadges.Value.Any())
+                {
+                    return NotFound("Employee's badges information not found.");
+                }
+
+                return Ok(employeeBadges);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error in GetBadges, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
+        }
+
+        [HttpGet("{gpn}/Certifications")]
+        public IActionResult GetCertifications(string gpn, [FromQuery] RequestEmployeeCertification request)
+        {
+            try
+            {
+                var employeeCertifications = _bLEmployee.GetCertifications(gpn, request);
+
+                if (!employeeCertifications.Value.Any())
+                {
+                    return NotFound("Employee's certifications information not found.");
+                }
+
+                return Ok(employeeCertifications);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error in GetCertifications, error message: {ex.Message}, HResult: {ex.HResult}";
                 _logger.LogError(message);
                 return BadRequest(message);
             }
@@ -127,7 +170,7 @@ namespace gdsmx_back_netcoreAPI.Controllers
 
         }
 
-        [HttpGet("{gpn}/Certifications")]
+        [HttpGet("{gpn}/certifications/test")]
         public IActionResult GetCertifications(string gpn)
         {
             try
