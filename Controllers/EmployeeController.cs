@@ -41,14 +41,14 @@ namespace gdsmx_back_netcoreAPI.Controllers
         }
 
         [HttpGet("Export")]
-        public IActionResult GetExport([FromQuery]RequestEmployeeExport requestEmployee)
+        public IActionResult GetExport([FromQuery]RequestEmployeeExport requestEmployeeExport)
         {
             try
             {
-                if (requestEmployee.FileType == 1)
-                    return File(_bLEmployee.GetExportFile(requestEmployee), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Employee_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".xlsx");
+                if (requestEmployeeExport.FileType == 1)
+                    return File(_bLEmployee.GetExportFile(requestEmployeeExport), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Employee_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".xlsx");
                 else
-                    return File(_bLEmployee.GetExportFile(requestEmployee), "Text/CSV", "Employee_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".csv");
+                    return File(_bLEmployee.GetExportFile(requestEmployeeExport), "Text/CSV", "Employee_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".csv");
             }
             catch(Exception ex)
             {
@@ -81,27 +81,12 @@ namespace gdsmx_back_netcoreAPI.Controllers
 
         }
 
-        [HttpGet("{gpn}/badges/test")]
-        public IActionResult GetBadges(string gpn)
-        {
-            try
-            {
-                var employeeBadges = GetRandomEmployeeBadges(gpn);
-                return Ok(employeeBadges);
-            }
-            catch (Exception ex)
-            {
-                string message = $"Error in GetBadges, error message: {ex.Message}, HResult: {ex.HResult}";
-                _logger.LogError(message);
-                return BadRequest(message);
-            }
-        }
         [HttpGet("{gpn}/Badges")]
-        public IActionResult GetBadges(string gpn, [FromQuery] RequestEmployeeBadge request)
+        public IActionResult GetBadges(string gpn, [FromQuery] RequestEmployeeBadge requestEmployeeBadge)
         {
             try
             {
-                var employeeBadges = _bLEmployee.GetBadges(gpn, request);
+                var employeeBadges = _bLEmployee.GetBadges(gpn, requestEmployeeBadge);
 
                 if (!employeeBadges.Value.Any())
                 {
@@ -119,11 +104,11 @@ namespace gdsmx_back_netcoreAPI.Controllers
         }
 
         [HttpGet("{gpn}/Certifications")]
-        public IActionResult GetCertifications(string gpn, [FromQuery] RequestEmployeeCertification request)
+        public IActionResult GetCertifications(string gpn, [FromQuery] RequestEmployeeCertification requestEmployeeCertification)
         {
             try
             {
-                var employeeCertifications = _bLEmployee.GetCertifications(gpn, request);
+                var employeeCertifications = _bLEmployee.GetCertifications(gpn, requestEmployeeCertification);
 
                 if (!employeeCertifications.Value.Any())
                 {
@@ -168,6 +153,22 @@ namespace gdsmx_back_netcoreAPI.Controllers
             }
             return employeeBadges;
 
+        }
+
+        [HttpGet("{gpn}/badges/test")]
+        public IActionResult GetBadges(string gpn)
+        {
+            try
+            {
+                var employeeBadges = GetRandomEmployeeBadges(gpn);
+                return Ok(employeeBadges);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error in GetBadges, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
         }
 
         [HttpGet("{gpn}/certifications/test")]

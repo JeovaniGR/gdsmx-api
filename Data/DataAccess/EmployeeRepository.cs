@@ -4,7 +4,6 @@ using gdsmx_back_netcoreAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System.Data.SqlTypes;
 
 namespace gdsmx_back_netcoreAPI.Data.DataAccess
 {

@@ -72,12 +72,8 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
             {
                 return new List<DataEmployeeSkill>();
             }
-            else
-            {
-                requestEmployeeSkill.IdEmployee = idEmployee;
-            }
 
-            return _employeeRepository.GetSkills(requestEmployeeSkill.IdEmployee, requestEmployeeSkill.Option, skill, rank, requestEmployeeSkill.Page, requestEmployeeSkill.PageSize);
+            return _employeeRepository.GetSkills(idEmployee, requestEmployeeSkill.Option, skill, rank, requestEmployeeSkill.Page, requestEmployeeSkill.PageSize);
         }
 
         public ActionResult<IEnumerable<DataEmployeeBadge>> GetBadges(string gpn, RequestEmployeeBadge request)
@@ -91,12 +87,8 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
             {
                 return new List<DataEmployeeBadge>();
             }
-            else
-            {
-                request.IdEmployee = idEmployee;
-            }
 
-            return _employeeRepository.GetBadges(request.IdEmployee, level, status, request.Page, request.PageSize);
+            return _employeeRepository.GetBadges(idEmployee, level, status, request.Page, request.PageSize);
         }
 
         public ActionResult<IEnumerable<DataEmployeeCertification>> GetCertifications(string gpn, RequestEmployeeCertification request)
@@ -109,12 +101,8 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
             {
                 return new List<DataEmployeeCertification>();
             }
-            else
-            {
-                request.IdEmployee = idEmployee;
-            }
 
-            return _employeeRepository.GetCertifications(request.IdEmployee, request.Option, request.StartDate, request.EndDate, certification, request.Page, request.PageSize);
+            return _employeeRepository.GetCertifications(idEmployee, request.Option, request.StartDate, request.EndDate, certification, request.Page, request.PageSize);
         }
     }
 }
