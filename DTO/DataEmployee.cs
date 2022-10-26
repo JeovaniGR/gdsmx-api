@@ -1,6 +1,8 @@
-﻿namespace gdsmx_back_netcoreAPI.DTO
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace gdsmx_back_netcoreAPI.DTO
 {
-	public class DataEmployee
+	public class DataEmployee : IDataEmployee
 	{
 		public int IdEmployee { get; set; }
 		public string? GPN { get; set; }
@@ -20,5 +22,9 @@
 		public string? Level { get ; set; }		
         public string? Grade {get ; set; }
 		public string? Notes {get ; set; }
+		[NotMapped]
+		public string? Engagement { get; set; }
+        [NotMapped]
+        public string? EngagementEndDate { get; set; }
     }
 }
