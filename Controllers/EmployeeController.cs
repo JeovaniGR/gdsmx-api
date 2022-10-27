@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using gdsmx_back_netcoreAPI.BL.Interfaces;
 using gdsmx_back_netcoreAPI.DTO;
-<<<<<<< HEAD
-using System.Linq;
-=======
->>>>>>> 5ae7aba4c7fbfc73bdb903dcf6967803797ce3bc
+
 
 namespace gdsmx_back_netcoreAPI.Controllers
 {
