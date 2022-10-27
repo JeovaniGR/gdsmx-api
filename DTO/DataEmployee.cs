@@ -24,5 +24,7 @@ namespace gdsmx_back_netcoreAPI.DTO
 		public string? Notes {get ; set; }
 		[NotMapped]
 		public string? Engagement { get; set; }
+        [NotMapped]
+        public string? EngagementEndDate { get; set; }
     }
 }

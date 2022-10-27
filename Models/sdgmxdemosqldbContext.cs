@@ -39,6 +39,8 @@ namespace gdsmx_back_netcoreAPI.Models
         public virtual DbSet<PersonSegmentCatalog> PersonSegmentCatalogs { get; set; } = null!;
         public virtual DbSet<DataEmployee> DataEmployees { get; set; } = null!;
         public virtual DbSet<DataEmployeeSkill> DataEmployeeSkills { get; set; } = null!;
+        public virtual DbSet<DataEmployeeBadge> DataEmployeeBadge { get; set; } = null!;
+        public virtual DbSet<DataEmployeeCertification> DataEmployeeCertification { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -81,6 +83,41 @@ namespace gdsmx_back_netcoreAPI.Models
                 entity.Property(e => e.DescriptionSkill);
                 entity.Property(e => e.IsPrimarySkill);
                 entity.Property(e => e.DescriptionRank);
+            });
+
+            // Context for SP_GetEmployeeBadge
+            modelBuilder.Entity<DataEmployeeBadge>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.IdEmployee);
+                entity.Property(e => e.DescriptionStatus);
+                entity.Property(e => e.DescriptionLevel);
+                entity.Property(e => e.DescriptionCourse);
+                entity.Property(e => e.DescriptionCategory);
+                entity.Property(e => e.DescriptionTopic);
+                entity.Property(e => e.DescriptionSubDomain);
+                entity.Property(e => e.DescriptionDomain);
+                entity.Property(e => e.FirstName);
+                entity.Property(e => e.MiddleName);
+                entity.Property(e => e.LastName);
+                entity.Property(e => e.SecondLastName);
+            });
+
+            //Context for SP_GetEmployeeCertification
+            modelBuilder.Entity<DataEmployeeCertification>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.IdEmployee);
+                entity.Property(e => e.GPN);
+                entity.Property(e => e.FirstName);
+                entity.Property(e => e.MiddleName);
+                entity.Property(e => e.LastName);
+                entity.Property(e => e.SecondLastName);
+                entity.Property(e => e.Description);
+                entity.Property(e => e.ObtainedDate);
+                entity.Property(e => e.ExpirationDate);
             });
 
             modelBuilder.Entity<BadgeCategory>(entity =>

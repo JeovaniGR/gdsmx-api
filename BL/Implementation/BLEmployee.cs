@@ -2,6 +2,7 @@
 using gdsmx_back_netcoreAPI.BL.Resource;
 using gdsmx_back_netcoreAPI.Data.Repositories;
 using gdsmx_back_netcoreAPI.DTO;
+using gdsmx_back_netcoreAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,13 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
  
             foreach (var employee in employeeList.Value)
             {
-                employee.Engagement = employee.Status == "Billable" ? "TalentOps Project" : ""; 
+                employee.Engagement = employee.Status == "Billable" ? "TalentOps Project" : "";
+                
+                Random rnd = new Random();
+                int days = rnd.Next(7, 30);
+                DateTime dateTime = DateTime.Now.AddDays(days);
+
+                employee.EngagementEndDate = employee.Status == "Billable" ? dateTime.ToString("MMMM dd, yyyy") : "";
             }
 
             return employeeList;
@@ -54,12 +61,48 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
                 return file.WriteFileCSV(employeesList);
         }
 
-        public ActionResult<IEnumerable<DataEmployeeSkill>> GetSkills(RequestEmployeeSkill requestEmployeeSkill)
+        public ActionResult<IEnumerable<DataEmployeeSkill>> GetSkills(string gpn, RequestEmployeeSkill requestEmployeeSkill)
         {
             var skill = requestEmployeeSkill.Skill ?? SqlString.Null;
             var rank = requestEmployeeSkill.Rank ?? SqlString.Null;
 
-            return _employeeRepository.GetSkills(requestEmployeeSkill.IdEmployee, requestEmployeeSkill.Option, skill, rank, requestEmployeeSkill.Page, requestEmployeeSkill.PageSize);
+            int idEmployee = _employeeRepository.GetEmployeeByGPN(gpn);
+
+            if (idEmployee == 0)
+            {
+                return new List<DataEmployeeSkill>();
+            }
+
+            return _employeeRepository.GetSkills(idEmployee, requestEmployeeSkill.Option, skill, rank, requestEmployeeSkill.Page, requestEmployeeSkill.PageSize);
+        }
+
+        public ActionResult<IEnumerable<DataEmployeeBadge>> GetBadges(string gpn, RequestEmployeeBadge request)
+        {
+            var level = request.Level ?? SqlString.Null;
+            var status = request.Status ?? SqlString.Null;
+
+            int idEmployee = _employeeRepository.GetEmployeeByGPN(gpn);
+
+            if (idEmployee == 0)
+            {
+                return new List<DataEmployeeBadge>();
+            }
+
+            return _employeeRepository.GetBadges(idEmployee, level, status, request.Page, request.PageSize);
+        }
+
+        public ActionResult<IEnumerable<DataEmployeeCertification>> GetCertifications(string gpn, RequestEmployeeCertification request)
+        {
+            var certification = request.Certification ?? SqlString.Null;
+
+            int idEmployee = _employeeRepository.GetEmployeeByGPN(gpn);
+
+            if (idEmployee == 0)
+            {
+                return new List<DataEmployeeCertification>();
+            }
+
+            return _employeeRepository.GetCertifications(idEmployee, request.Option, request.StartDate, request.EndDate, certification, request.Page, request.PageSize);
         }
     }
 }
