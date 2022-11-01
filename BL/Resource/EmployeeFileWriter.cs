@@ -4,10 +4,11 @@ using gdsmx_back_netcoreAPI.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic.FileIO;
 using System.Text;
+using gdsmx_back_netcoreAPI.BL.Interfaces;
 
 namespace gdsmx_back_netcoreAPI.BL.Resource
 {
-    public class FileWriter
+    public class EmployeeFileWriter : IExcelWriter<DataEmployee>, ICSVWriter<DataEmployee>
     {
         private readonly List<string> header = new List<string>() {
             "GNP",
@@ -60,7 +61,37 @@ namespace gdsmx_back_netcoreAPI.BL.Resource
             return Encoding.GetEncoding("Windows-1252").GetBytes(sb.ToString());
         }
 
-        public byte[] WriteFileExcel(List<DataEmployee> Employeelist)
+        public byte[] WriteToCSV(List<DataEmployee> values)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine(string.Join(",", header));
+
+            foreach (var item in values)
+            {
+                sb.AppendLine($"{item.GPN}," +
+                            $"{item.FirstName}," +
+                            $"{item.MiddleName}," +
+                            $"{item.LastName}," +
+                            $"{item.SecondLastName}," +
+                            $"{item.Birthdate}," +
+                            $"{item.JoinedDate.ToShortDateString()}," +
+                            $"{item.Email}," +
+                            $"{item.Counselor}," +
+                            $"{item.Location}," +
+                            $"{item.PersonSegment}," +
+                            $"{item.Competency}," +
+                            $"{item.Status}," +
+                            $"{item.Rank}," +
+                            $"{item.Level}," +
+                            $"{item.Grade}," +
+                            $"\"{item.Notes}\"");
+            }
+
+            return Encoding.GetEncoding("Windows-1252").GetBytes(sb.ToString());
+        }
+
+        public byte[] WriteToExcel(List<DataEmployee> values)
         {
             using (var workExcel = new XLWorkbook())
             {
@@ -72,12 +103,12 @@ namespace gdsmx_back_netcoreAPI.BL.Resource
                     worksheet.Cell(currentRow, index + 1).Value = headerValue;
                 }
 
-                var rango = worksheet.Range("A1:Q1"); 
-                rango.Style.Font.FontSize = 12; 
+                var rango = worksheet.Range("A1:Q1");
+                rango.Style.Font.FontSize = 12;
                 rango.Style.Font.Bold = true;
                 rango.Style.Fill.BackgroundColor = XLColor.PastelGray;
 
-                foreach (var item in Employeelist)
+                foreach (var item in values)
                 {
                     currentRow++;
                     worksheet.Cell(currentRow, 1).Value = item.GPN;

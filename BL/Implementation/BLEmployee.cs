@@ -53,12 +53,16 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
 
             List<DataEmployee> employeesList =  _employeeRepository.GetFile(competency, level, status, requestEmployee.GPN, requestEmployee.IdEmployee, requestEmployee.Page, requestEmployee.PageSize);
 
-            FileWriter file = new FileWriter();
-
             if (requestEmployee.FileType == 1)
-                return  file.WriteFileExcel(employeesList);
+            {
+                IExcelWriter<DataEmployee> EmployeeExcelWriter = new EmployeeFileWriter();
+                return EmployeeExcelWriter.WriteToExcel(employeesList);
+            }
             else
-                return file.WriteFileCSV(employeesList);
+            {
+                ICSVWriter<DataEmployee> EmployeeCSVWriter = new EmployeeFileWriter();
+                return EmployeeCSVWriter.WriteToCSV(employeesList);
+            }
         }
 
         public ActionResult<IEnumerable<DataEmployeeSkill>> GetSkills(string gpn, RequestEmployeeSkill requestEmployeeSkill)
