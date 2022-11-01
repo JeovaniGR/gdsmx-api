@@ -4,33 +4,37 @@ using System.Collections.Generic;
 namespace gdsmx_back_netcoreAPI.Models
 {
     /// <summary>
-    /// Catalog of the status of the badge like Approved, Pending for Approval
+    /// Catalog of certifications
     /// </summary>
-    public partial class BadgeStatus
+    public partial class CertificationCatalog
     {
-        public BadgeStatus()
+        public CertificationCatalog()
         {
-            BadgeCourseEmployees = new HashSet<BadgeCourseEmployee>();
+            EmployeeCertifications = new HashSet<EmployeeCertification>();
         }
 
         /// <summary>
         /// Id of the table
         /// </summary>
-        public int IdBadgeStatus { get; set; }
+        public int IdCertificationCatalog { get; set; }
         /// <summary>
-        /// Description of the status
+        /// Name of the institution that grants the certification
+        /// </summary>
+        public string Institution { get; set; } = null!;
+        /// <summary>
+        /// Description
         /// </summary>
         public string Description { get; set; } = null!;
         /// <summary>
-        /// Indicate if the row is active
+        /// Indicates if the record is active or not
         /// </summary>
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
         /// <summary>
         /// Id of who created the row
         /// </summary>
         public int? IdCreated { get; set; }
         /// <summary>
-        /// Creation date
+        /// Creation date of the row
         /// </summary>
         public DateTime CreateDate { get; set; }
         /// <summary>
@@ -42,6 +46,6 @@ namespace gdsmx_back_netcoreAPI.Models
         /// </summary>
         public DateTime? LastUpdatedDate { get; set; }
 
-        public virtual ICollection<BadgeCourseEmployee> BadgeCourseEmployees { get; set; }
+        public virtual ICollection<EmployeeCertification> EmployeeCertifications { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace gdsmx_back_netcoreAPI.Models
 {
     /// <summary>
-    /// Badge courses
+    /// Catalog of the courses of the badges like Technology-Cloud-Silver Private
     /// </summary>
     public partial class BadgeCourse
     {

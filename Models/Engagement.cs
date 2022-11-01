@@ -30,6 +30,26 @@ namespace gdsmx_back_netcoreAPI.Models
         /// </summary>
         public int? IdParent { get; set; }
         /// <summary>
+        /// Name of the customer
+        /// </summary>
+        public string? CustomerName { get; set; }
+        /// <summary>
+        /// Name of the Project
+        /// </summary>
+        public string? ProjectName { get; set; }
+        /// <summary>
+        /// Engagement related to the TimeSheet
+        /// </summary>
+        public string? EngagementId { get; set; }
+        /// <summary>
+        /// Name of the Project Manager
+        /// </summary>
+        public string? ProjectManagerName { get; set; }
+        /// <summary>
+        /// E Mail of the Project Manager
+        /// </summary>
+        public string? ProjectManagerEmail { get; set; }
+        /// <summary>
         /// Starting date of the engagement
         /// </summary>
         public DateTime? StartDate { get; set; }
