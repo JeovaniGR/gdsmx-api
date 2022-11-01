@@ -23,9 +23,10 @@ namespace gdsmx_back_netcoreAPI.Controllers
         /// Create a new engagement for employee.
         /// </summary>
         /// <remarks>
-        /// Examples: /api/Engagement/XE264109159/
+        /// Examples: /api/Engagement/XE264109159
         /// {
         ///      "description": "Talent management app",
+        ///      "idParent": null,
         ///      "customerName": "Rohit Selvaraj",
         ///      "projectName": "Talent Ops",
         ///      "engagementId": "I-123456",
@@ -33,7 +34,11 @@ namespace gdsmx_back_netcoreAPI.Controllers
         ///      "projectManagerEmail": "heber.solorio@gds.ey.com",
         ///      "startDate": "2022-10-31",
         ///      "endDate": "2022-11-30",
-        ///      "isActive": true
+        ///      "isActive": true,
+        ///      "status": 2,
+        ///      "engagementHours": 40,
+        ///      "cancelationDate": null,
+        ///      "comments": "Internal engagement"
         ///}
         /// </remarks>
         /// <param name="gpn">Employee's EY ID</param>
@@ -51,7 +56,7 @@ namespace gdsmx_back_netcoreAPI.Controllers
                     return NotFound("Error creating a new engagement. Employee with GPN " + gpn + " not found.");
                 }
 
-                var idNewEngagement = _blEngagement.CreateNewEngagement(idEmployee, requestEngagementCU);
+                var idNewEngagement = _blEngagement.CreateEngagement(idEmployee, requestEngagementCU);
 
                 if (idNewEngagement.Value == 0)
                 {
@@ -69,24 +74,29 @@ namespace gdsmx_back_netcoreAPI.Controllers
         }
 
         /// <summary>
-        /// Create a new engagement for employee.
+        /// Update engagement data for employee.
         /// </summary>
         /// <remarks>
         /// Examples: /api/Engagement/XE264109159/1/
         /// {
         ///      "description": "Talent management app",
+        ///      "idParent": null,
         ///      "customerName": "Rohit Selvaraj",
         ///      "projectName": "Talent Ops",
         ///      "engagementId": "I-123456",
         ///      "projectManagerName": "Heber Solorio",
         ///      "projectManagerEmail": "heber.solorio@gds.ey.com",
         ///      "startDate": "2022-10-31",
-        ///      "endDate": "2022-12-01",
-        ///      "isActive": true
+        ///      "endDate": "2022-11-30",
+        ///      "isActive": true,
+        ///      "status": 4,
+        ///      "engagementHours": 40,
+        ///      "cancelationDate": null,
+        ///      "comments": "Internal engagement"
         ///}
         /// </remarks>
         /// <param name="gpn">Employee's EY ID</param>
-        /// <param name="idEngagement">Employee's engagement ID</param>
+        /// <param name="idEngagement">Engagement database ID</param>
         /// <param name="requestEngagementCU">Data to update engagement data for an employee</param>
         /// <returns>IdEngagement of the updated engagement</returns>
         [HttpPut("{gpn}/{idEngagement}")]

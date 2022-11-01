@@ -22,12 +22,13 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
             return _engagementRepository.GetIdEmployeeByGPN(gpn);
         }
 
-        public ActionResult<int> CreateNewEngagement(int idEmployee, RequestEngagementCU requestEngagementCU)
+        public ActionResult<int> CreateEngagement(int idEmployee, RequestEngagementCU requestEngagementCU)
         {
             Engagement engagement = new Engagement
             {
                 IdEmployee = idEmployee,
                 Description = requestEngagementCU.Description,
+                IdParent = requestEngagementCU.IdParent,
                 CustomerName = requestEngagementCU.CustomerName,
                 ProjectName = requestEngagementCU.ProjectName,
                 EngagementId = requestEngagementCU.EngagementId,
@@ -36,11 +37,15 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
                 StartDate = requestEngagementCU.StartDate,
                 EndDate = requestEngagementCU.EndDate,
                 IsActive = requestEngagementCU.IsActive,
+                Status = requestEngagementCU.Status,
+                EngagementHours = requestEngagementCU.EngagementHours,
+                CancelationDate = requestEngagementCU.CancelationDate,
+                Comments = requestEngagementCU.Comments,
                 CreateDate = DateTime.Now,
                 LastUpdatedDate = DateTime.Now
             };
 
-            var idNewEngagement = _engagementRepository.CreateNewEngagement(engagement);
+            var idNewEngagement = _engagementRepository.CreateEngagement(engagement);
 
             return idNewEngagement;
         }
@@ -55,6 +60,7 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
             }
 
             engagement.Description = requestEngagementCU.Description;
+            engagement.IdParent = requestEngagementCU.IdParent;
             engagement.CustomerName = requestEngagementCU.CustomerName;
             engagement.ProjectName = requestEngagementCU.ProjectName;
             engagement.EngagementId = requestEngagementCU.EngagementId;
@@ -63,6 +69,10 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
             engagement.StartDate = requestEngagementCU.StartDate;
             engagement.EndDate = requestEngagementCU.EndDate;
             engagement.IsActive = requestEngagementCU.IsActive;
+            engagement.Status = requestEngagementCU.Status;
+            engagement.EngagementHours = requestEngagementCU.EngagementHours;
+            engagement.CancelationDate = requestEngagementCU.CancelationDate;
+            engagement.Comments = requestEngagementCU.Comments;
             engagement.LastUpdatedDate = DateTime.Now;
 
             var updatedEngagement = _engagementRepository.UpdateEngagement(engagement);

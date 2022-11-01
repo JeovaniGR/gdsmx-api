@@ -18,7 +18,7 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
             return employee == null ? 0 : employee.IdEmployee;
         }
 
-        public ActionResult<int> CreateNewEngagement(Engagement engagement)
+        public ActionResult<int> CreateEngagement(Engagement engagement)
         {
             _context.Engagements.Add(engagement);
             _context.SaveChanges();

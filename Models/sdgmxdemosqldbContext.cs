@@ -33,6 +33,7 @@ namespace gdsmx_back_netcoreAPI.Models
         public virtual DbSet<EmployeeLevel> EmployeeLevels { get; set; } = null!;
         public virtual DbSet<EmployeeSkill> EmployeeSkills { get; set; } = null!;
         public virtual DbSet<Engagement> Engagements { get; set; } = null!;
+        public virtual DbSet<EngagementStatus> EngagementStatuses { get; set; } = null!;
         public virtual DbSet<FiscalYear> FiscalYears { get; set; } = null!;
         public virtual DbSet<GenericCatalog> GenericCatalogs { get; set; } = null!;
         public virtual DbSet<GenericSubCatalog> GenericSubCatalogs { get; set; } = null!;
@@ -43,9 +44,8 @@ namespace gdsmx_back_netcoreAPI.Models
         public virtual DbSet<SkillCatalog> SkillCatalogs { get; set; } = null!;
         public virtual DbSet<DataEmployee> DataEmployees { get; set; } = null!;
         public virtual DbSet<DataEmployeeSkill> DataEmployeeSkills { get; set; } = null!;
-        public virtual DbSet<DataEmployeeBadge> DataEmployeeBadge { get; set; } = null!;
-        public virtual DbSet<DataEmployeeCertification> DataEmployeeCertification { get; set; } = null!;
-
+        public virtual DbSet<DataEmployeeBadge> DataEmployeeBadges { get; set; } = null!;
+        public virtual DbSet<DataEmployeeCertification> DataEmployeeCertifications { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -896,6 +896,10 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.Property(e => e.IdEngagement).HasComment("Id of the engagement");
 
+                entity.Property(e => e.CancelationDate).HasColumnType("date");
+
+                entity.Property(e => e.Comments).HasColumnType("text");
+
                 entity.Property(e => e.CreateDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())")
@@ -963,6 +967,40 @@ namespace gdsmx_back_netcoreAPI.Models
                     .WithMany(p => p.InverseIdParentNavigation)
                     .HasForeignKey(d => d.IdParent)
                     .HasConstraintName("FK_Engagement_Engagement");
+            });
+
+            modelBuilder.Entity<EngagementStatus>(entity =>
+            {
+                entity.HasKey(e => e.IdEngagementStatus);
+
+                entity.ToTable("EngagementStatus");
+
+                entity.HasComment("Catalog of the status of the engaement like Open, Close,Cancel and Pending");
+
+                entity.Property(e => e.IdEngagementStatus).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Description of the status");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
             });
 
             modelBuilder.Entity<FiscalYear>(entity =>

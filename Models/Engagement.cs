@@ -77,6 +77,10 @@ namespace gdsmx_back_netcoreAPI.Models
         /// Last updated date
         /// </summary>
         public DateTime? LastUpdatedDate { get; set; }
+        public int? Status { get; set; }
+        public int? EngagementHours { get; set; }
+        public DateTime? CancelationDate { get; set; }
+        public string? Comments { get; set; }
 
         public virtual Employee IdEmployeeNavigation { get; set; } = null!;
         public virtual Engagement? IdParentNavigation { get; set; }
