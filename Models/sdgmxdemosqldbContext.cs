@@ -60,6 +60,7 @@ namespace gdsmx_back_netcoreAPI.Models
                 entity.Property(e => e.MiddleName);
                 entity.Property(e => e.LastName);
                 entity.Property(e => e.SecondLastName);
+                entity.Property(e => e.PreferredName);
                 entity.Property(e => e.Birthdate);
                 entity.Property(e => e.JoinedDate);
                 entity.Property(e => e.Email);

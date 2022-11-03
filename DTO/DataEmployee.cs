@@ -10,6 +10,7 @@ namespace gdsmx_back_netcoreAPI.DTO
 		public string? MiddleName {get ; set; }
 		public string? LastName {get ; set; }
 		public string? SecondLastName {get ; set; }
+		public string? PreferredName { get; set; }
 		public string? Birthdate {get ; set; }
 		public DateTime JoinedDate {get ; set; }
 		public string? Email {get ; set; }
