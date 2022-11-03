@@ -29,37 +29,6 @@ namespace gdsmx_back_netcoreAPI.BL.Resource
             "Grade",
             "Notes"
         };
-        
-        public byte[] WriteFileCSV(List<DataEmployee> Employeelist)
-        {
-
-            var sb = new StringBuilder();
-
-            sb.AppendLine(string.Join(",", header));
-
-            foreach (var item in Employeelist)
-            {
-                sb.AppendLine($"{item.GPN}," +
-                            $"{item.FirstName}," +
-                            $"{item.MiddleName}," +
-                            $"{item.LastName}," +
-                            $"{item.SecondLastName}," +
-                            $"{item.Birthdate}," +
-                            $"{item.JoinedDate.ToShortDateString()}," +
-                            $"{item.Email}," +
-                            $"{item.Counselor}," +
-                            $"{item.Location}," +
-                            $"{item.PersonSegment}," +
-                            $"{item.Competency}," +
-                            $"{item.Status}," +
-                            $"{item.Rank}," +
-                            $"{item.Level}," +
-                            $"{item.Grade}," +
-                            $"\"{item.Notes}\"");
-            }
-           
-            return Encoding.GetEncoding("Windows-1252").GetBytes(sb.ToString());
-        }
 
         public byte[] WriteToCSV(List<DataEmployee> values)
         {
