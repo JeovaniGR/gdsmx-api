@@ -15,8 +15,9 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<sdgmxdemosqldbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionStrig"), providerOptions => providerOptions.EnableRetryOnFailure()));
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddTransient<IBLEmployee, BLEmployee>();
+builder.Services.AddTransient<IEngagementRepository, EngagementRepository>();
+builder.Services.AddTransient<IBLEngagement, BLEngagement>();
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo

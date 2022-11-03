@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace gdsmx_back_netcoreAPI.Models
 {
     /// <summary>
-    /// Badge Subdomain
+    /// Catalog of the sub-domain of the badges like Technology-Cloud
     /// </summary>
     public partial class BadgeSubDomain
     {

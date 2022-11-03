@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace gdsmx_back_netcoreAPI.Models
 {
     /// <summary>
-    /// Badge Level
+    /// Catalog of the level of the badges course like Gold, Platinum
     /// </summary>
     public partial class BadgeLevel
     {

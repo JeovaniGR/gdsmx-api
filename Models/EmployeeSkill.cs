@@ -4,23 +4,34 @@ using System.Collections.Generic;
 namespace gdsmx_back_netcoreAPI.Models
 {
     /// <summary>
-    /// Catalog of the categories of the badges like Business-Sector-EY Private
+    /// Relation between an employee and his/her skills
     /// </summary>
-    public partial class BadgeCategory
+    public partial class EmployeeSkill
     {
-        public BadgeCategory()
-        {
-            BadgeTopics = new HashSet<BadgeTopic>();
-        }
-
         /// <summary>
-        /// Id of the table
+        /// Id Employee Skill
         /// </summary>
-        public int IdBadgeCategory { get; set; }
+        public int IdEmployeeSkills { get; set; }
+        /// <summary>
+        /// Id Employee
+        /// </summary>
+        public int IdEmployee { get; set; }
+        /// <summary>
+        /// Id Skill
+        /// </summary>
+        public int IdSkill { get; set; }
         /// <summary>
         /// Description
         /// </summary>
-        public string Description { get; set; } = null!;
+        public string? Description { get; set; }
+        /// <summary>
+        /// Id Rank
+        /// </summary>
+        public int? IdRank { get; set; }
+        /// <summary>
+        /// Indicate if the skill is a primary skill
+        /// </summary>
+        public bool IsPrimarySkill { get; set; }
         /// <summary>
         /// Indicate if the row is active
         /// </summary>
@@ -42,6 +53,7 @@ namespace gdsmx_back_netcoreAPI.Models
         /// </summary>
         public DateTime? LastUpdatedDate { get; set; }
 
-        public virtual ICollection<BadgeTopic> BadgeTopics { get; set; }
+        public virtual Employee IdEmployeeNavigation { get; set; } = null!;
+        public virtual GenericSubCatalog? IdRankNavigation { get; set; }
     }
 }

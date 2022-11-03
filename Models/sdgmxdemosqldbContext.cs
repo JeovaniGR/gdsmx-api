@@ -25,11 +25,15 @@ namespace gdsmx_back_netcoreAPI.Models
         public virtual DbSet<BadgeStatus> BadgeStatuses { get; set; } = null!;
         public virtual DbSet<BadgeSubDomain> BadgeSubDomains { get; set; } = null!;
         public virtual DbSet<BadgeTopic> BadgeTopics { get; set; } = null!;
+        public virtual DbSet<CertificationCatalog> CertificationCatalogs { get; set; } = null!;
         public virtual DbSet<CompetenciesCatalog> CompetenciesCatalogs { get; set; } = null!;
         public virtual DbSet<Country> Countries { get; set; } = null!;
         public virtual DbSet<Employee> Employees { get; set; } = null!;
+        public virtual DbSet<EmployeeCertification> EmployeeCertifications { get; set; } = null!;
         public virtual DbSet<EmployeeLevel> EmployeeLevels { get; set; } = null!;
+        public virtual DbSet<EmployeeSkill> EmployeeSkills { get; set; } = null!;
         public virtual DbSet<Engagement> Engagements { get; set; } = null!;
+        public virtual DbSet<EngagementStatus> EngagementStatuses { get; set; } = null!;
         public virtual DbSet<FiscalYear> FiscalYears { get; set; } = null!;
         public virtual DbSet<GenericCatalog> GenericCatalogs { get; set; } = null!;
         public virtual DbSet<GenericSubCatalog> GenericSubCatalogs { get; set; } = null!;
@@ -37,10 +41,11 @@ namespace gdsmx_back_netcoreAPI.Models
         public virtual DbSet<LevelSubCatalog> LevelSubCatalogs { get; set; } = null!;
         public virtual DbSet<Location> Locations { get; set; } = null!;
         public virtual DbSet<PersonSegmentCatalog> PersonSegmentCatalogs { get; set; } = null!;
+        public virtual DbSet<SkillCatalog> SkillCatalogs { get; set; } = null!;
         public virtual DbSet<DataEmployee> DataEmployees { get; set; } = null!;
         public virtual DbSet<DataEmployeeSkill> DataEmployeeSkills { get; set; } = null!;
-        public virtual DbSet<DataEmployeeBadge> DataEmployeeBadge { get; set; } = null!;
-        public virtual DbSet<DataEmployeeCertification> DataEmployeeCertification { get; set; } = null!;
+        public virtual DbSet<DataEmployeeBadge> DataEmployeeBadges { get; set; } = null!;
+        public virtual DbSet<DataEmployeeCertification> DataEmployeeCertifications { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -126,7 +131,7 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.ToTable("BadgeCategory");
 
-                entity.HasComment("Badge category");
+                entity.HasComment("Catalog of the categories of the badges like Business-Sector-EY Private");
 
                 entity.Property(e => e.IdBadgeCategory).HasComment("Id of the table");
 
@@ -160,7 +165,7 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.ToTable("BadgeCourse");
 
-                entity.HasComment("Badge courses");
+                entity.HasComment("Catalog of the courses of the badges like Technology-Cloud-Silver Private");
 
                 entity.Property(e => e.IdBadgeCourse).HasComment("Id of the table");
 
@@ -319,7 +324,7 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.ToTable("BadgeDomain");
 
-                entity.HasComment("Badge Domain");
+                entity.HasComment("Catalog of the domain of the badges like Technology");
 
                 entity.Property(e => e.IdBadgeDomain).HasComment("Id of the table");
 
@@ -353,7 +358,7 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.ToTable("BadgeLevel");
 
-                entity.HasComment("Badge Level");
+                entity.HasComment("Catalog of the level of the badges course like Gold, Platinum");
 
                 entity.Property(e => e.IdBadgeLevel).HasComment("Id of the table");
 
@@ -387,7 +392,7 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.ToTable("BadgeStatus");
 
-                entity.HasComment("Badge Status");
+                entity.HasComment("Catalog of the status of the badge like Approved, Pending for Approval");
 
                 entity.Property(e => e.IdBadgeStatus).HasComment("Id of the table");
 
@@ -421,7 +426,7 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.ToTable("BadgeSubDomain");
 
-                entity.HasComment("Badge Subdomain");
+                entity.HasComment("Catalog of the sub-domain of the badges like Technology-Cloud");
 
                 entity.Property(e => e.IdBadgeSubDomain).HasComment("Id of the table");
 
@@ -463,7 +468,7 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.ToTable("BadgeTopic");
 
-                entity.HasComment("Badge Topic");
+                entity.HasComment("Catalog of the topic of the badge like Technology-Cloud-Cloud");
 
                 entity.Property(e => e.IdBadgeTopic).HasComment("Id of the table");
 
@@ -512,6 +517,42 @@ namespace gdsmx_back_netcoreAPI.Models
                     .HasForeignKey(d => d.IdBadgeSubDomain)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BadgeTopic_BadgeSubDomain");
+            });
+
+            modelBuilder.Entity<CertificationCatalog>(entity =>
+            {
+                entity.HasKey(e => e.IdCertificationCatalog)
+                    .HasName("PK_CertificationCatalog2");
+
+                entity.ToTable("CertificationCatalog");
+
+                entity.HasComment("Catalog of certifications");
+
+                entity.Property(e => e.IdCertificationCatalog).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Creation date of the row");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasComment("Description");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.Institution)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasComment("Name of the institution that grants the certification");
+
+                entity.Property(e => e.IsActive).HasComment("Indicates if the record is active or not");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
             });
 
             modelBuilder.Entity<CompetenciesCatalog>(entity =>
@@ -694,6 +735,53 @@ namespace gdsmx_back_netcoreAPI.Models
                     .HasConstraintName("FK_Employee_GenericSubCatalog");
             });
 
+            modelBuilder.Entity<EmployeeCertification>(entity =>
+            {
+                entity.HasKey(e => e.IdEmployeeCertification);
+
+                entity.ToTable("EmployeeCertification");
+
+                entity.HasComment("Relation between an employee and his/her certifications");
+
+                entity.Property(e => e.IdEmployeeCertification).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Creation date of the row");
+
+                entity.Property(e => e.ExpirationDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Date of certification's expiration date");
+
+                entity.Property(e => e.IdCertification).HasComment("Id of the Certification");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdEmployee).HasComment("Id of the Employee");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+
+                entity.Property(e => e.ObtainedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Date of when the certification was obtained");
+
+                entity.HasOne(d => d.IdCertificationNavigation)
+                    .WithMany(p => p.EmployeeCertifications)
+                    .HasForeignKey(d => d.IdCertification)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmployeeCertification_CertificationCatalog");
+
+                entity.HasOne(d => d.IdEmployeeNavigation)
+                    .WithMany(p => p.EmployeeCertifications)
+                    .HasForeignKey(d => d.IdEmployee)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmployeeCertification_Employee");
+            });
+
             modelBuilder.Entity<EmployeeLevel>(entity =>
             {
                 entity.HasKey(e => e.IdEmployee);
@@ -747,6 +835,57 @@ namespace gdsmx_back_netcoreAPI.Models
                     .HasConstraintName("FK_EmployeeLevel_LevelSubCatalog");
             });
 
+            modelBuilder.Entity<EmployeeSkill>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.HasComment("Relation between an employee and his/her skills");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date of the row");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasComment("Description");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdEmployee).HasComment("Id Employee");
+
+                entity.Property(e => e.IdEmployeeSkills).HasComment("Id Employee Skill");
+
+                entity.Property(e => e.IdRank).HasComment("Id Rank");
+
+                entity.Property(e => e.IdSkill).HasComment("Id Skill");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.IsPrimarySkill).HasComment("Indicate if the skill is a primary skill");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
+
+                entity.HasOne(d => d.IdEmployeeNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdEmployee)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmployeeSkills_Employee");
+
+                entity.HasOne(d => d.IdRankNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdRank)
+                    .HasConstraintName("FK_EmployeeSkills_GenericSubCatalog");
+            });
+
             modelBuilder.Entity<Engagement>(entity =>
             {
                 entity.HasKey(e => e.IdEngagement);
@@ -757,10 +896,19 @@ namespace gdsmx_back_netcoreAPI.Models
 
                 entity.Property(e => e.IdEngagement).HasComment("Id of the engagement");
 
+                entity.Property(e => e.CancelationDate).HasColumnType("date");
+
+                entity.Property(e => e.Comments).HasColumnType("text");
+
                 entity.Property(e => e.CreateDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())")
                     .HasComment("Creation date of the row");
+
+                entity.Property(e => e.CustomerName)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasComment("Name of the customer");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(250)
@@ -770,6 +918,11 @@ namespace gdsmx_back_netcoreAPI.Models
                 entity.Property(e => e.EndDate)
                     .HasColumnType("date")
                     .HasComment("Ending date of the engagement");
+
+                entity.Property(e => e.EngagementId)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasComment("Engagement related to the TimeSheet");
 
                 entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
 
@@ -785,6 +938,21 @@ namespace gdsmx_back_netcoreAPI.Models
                     .HasColumnType("datetime")
                     .HasComment("Last updated date");
 
+                entity.Property(e => e.ProjectManagerEmail)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasComment("E Mail of the Project Manager");
+
+                entity.Property(e => e.ProjectManagerName)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasComment("Name of the Project Manager");
+
+                entity.Property(e => e.ProjectName)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasComment("Name of the Project");
+
                 entity.Property(e => e.StartDate)
                     .HasColumnType("date")
                     .HasComment("Starting date of the engagement");
@@ -799,6 +967,40 @@ namespace gdsmx_back_netcoreAPI.Models
                     .WithMany(p => p.InverseIdParentNavigation)
                     .HasForeignKey(d => d.IdParent)
                     .HasConstraintName("FK_Engagement_Engagement");
+            });
+
+            modelBuilder.Entity<EngagementStatus>(entity =>
+            {
+                entity.HasKey(e => e.IdEngagementStatus);
+
+                entity.ToTable("EngagementStatus");
+
+                entity.HasComment("Catalog of the status of the engaement like Open, Close,Cancel and Pending");
+
+                entity.Property(e => e.IdEngagementStatus).HasComment("Id of the table");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Description of the status");
+
+                entity.Property(e => e.IdCreated).HasComment("Id of who created the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Last updated date");
             });
 
             modelBuilder.Entity<FiscalYear>(entity =>
@@ -1084,6 +1286,46 @@ namespace gdsmx_back_netcoreAPI.Models
                 entity.Property(e => e.LastUpdatedDate)
                     .HasColumnType("datetime")
                     .HasComment("Last updated date");
+            });
+
+            modelBuilder.Entity<SkillCatalog>(entity =>
+            {
+                entity.HasKey(e => e.IdSkillCatalog)
+                    .HasName("PK_PrimarySkill");
+
+                entity.ToTable("SkillCatalog");
+
+                entity.HasComment("Catalog of the skills");
+
+                entity.Property(e => e.IdSkillCatalog).HasComment("Id Primary Skill");
+
+                entity.Property(e => e.Comments)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasComment("Comments of the primary skill");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())")
+                    .HasComment("Creation date of the row");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasComment("Description of the Primary Skill");
+
+                entity.Property(e => e.IdCreated).HasComment("Id who create the row");
+
+                entity.Property(e => e.IdUpdated).HasComment("Id of who updated the row");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Indicate if the row is active");
+
+                entity.Property(e => e.LastUpdatedDate)
+                    .HasColumnType("datetime")
+                    .HasComment("Date of the last updated day");
             });
 
             OnModelCreatingPartial(modelBuilder);
