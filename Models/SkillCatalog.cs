@@ -4,33 +4,32 @@ using System.Collections.Generic;
 namespace gdsmx_back_netcoreAPI.Models
 {
     /// <summary>
-    /// Catalog of the status of the badge like Approved, Pending for Approval
+    /// Catalog of the skills
     /// </summary>
-    public partial class BadgeStatus
+    public partial class SkillCatalog
     {
-        public BadgeStatus()
-        {
-            BadgeCourseEmployees = new HashSet<BadgeCourseEmployee>();
-        }
-
         /// <summary>
-        /// Id of the table
+        /// Id Primary Skill
         /// </summary>
-        public int IdBadgeStatus { get; set; }
+        public int IdSkillCatalog { get; set; }
         /// <summary>
-        /// Description of the status
+        /// Description of the Primary Skill
         /// </summary>
         public string Description { get; set; } = null!;
+        /// <summary>
+        /// Comments of the primary skill
+        /// </summary>
+        public string? Comments { get; set; }
         /// <summary>
         /// Indicate if the row is active
         /// </summary>
         public bool? IsActive { get; set; }
         /// <summary>
-        /// Id of who created the row
+        /// Id who create the row
         /// </summary>
         public int? IdCreated { get; set; }
         /// <summary>
-        /// Creation date
+        /// Creation date of the row
         /// </summary>
         public DateTime CreateDate { get; set; }
         /// <summary>
@@ -38,10 +37,8 @@ namespace gdsmx_back_netcoreAPI.Models
         /// </summary>
         public int? IdUpdated { get; set; }
         /// <summary>
-        /// Last updated date
+        /// Date of the last updated day
         /// </summary>
         public DateTime? LastUpdatedDate { get; set; }
-
-        public virtual ICollection<BadgeCourseEmployee> BadgeCourseEmployees { get; set; }
     }
 }

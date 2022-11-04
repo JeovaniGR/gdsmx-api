@@ -2,7 +2,6 @@
 using gdsmx_back_netcoreAPI.BL.Resource;
 using gdsmx_back_netcoreAPI.Data.Repositories;
 using gdsmx_back_netcoreAPI.DTO;
-using gdsmx_back_netcoreAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

@@ -11,6 +11,7 @@ namespace gdsmx_back_netcoreAPI.Models
         public Employee()
         {
             BadgeCourseEmployees = new HashSet<BadgeCourseEmployee>();
+            EmployeeCertifications = new HashSet<EmployeeCertification>();
             Engagements = new HashSet<Engagement>();
         }
 
@@ -112,6 +113,7 @@ namespace gdsmx_back_netcoreAPI.Models
         public virtual GenericSubCatalog? IdStatusNavigation { get; set; }
         public virtual EmployeeLevel EmployeeLevel { get; set; } = null!;
         public virtual ICollection<BadgeCourseEmployee> BadgeCourseEmployees { get; set; }
+        public virtual ICollection<EmployeeCertification> EmployeeCertifications { get; set; }
         public virtual ICollection<Engagement> Engagements { get; set; }
     }
 }

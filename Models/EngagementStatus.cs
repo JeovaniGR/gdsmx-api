@@ -4,19 +4,14 @@ using System.Collections.Generic;
 namespace gdsmx_back_netcoreAPI.Models
 {
     /// <summary>
-    /// Catalog of the status of the badge like Approved, Pending for Approval
+    /// Catalog of the status of the engaement like Open, Close,Cancel and Pending
     /// </summary>
-    public partial class BadgeStatus
+    public partial class EngagementStatus
     {
-        public BadgeStatus()
-        {
-            BadgeCourseEmployees = new HashSet<BadgeCourseEmployee>();
-        }
-
         /// <summary>
         /// Id of the table
         /// </summary>
-        public int IdBadgeStatus { get; set; }
+        public int IdEngagementStatus { get; set; }
         /// <summary>
         /// Description of the status
         /// </summary>
@@ -41,7 +36,5 @@ namespace gdsmx_back_netcoreAPI.Models
         /// Last updated date
         /// </summary>
         public DateTime? LastUpdatedDate { get; set; }
-
-        public virtual ICollection<BadgeCourseEmployee> BadgeCourseEmployees { get; set; }
     }
 }
