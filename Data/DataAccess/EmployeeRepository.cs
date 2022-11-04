@@ -84,19 +84,7 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
             return employeeCertificationList;
         }
 
-        public ActionResult<IEnumerable<DataEmployeeEngagement>> GetEngagements(int idEmployee, string GPN, int StatusEmployee, int WeeksEnd, int PageNumber, int RowsOfPage, int IsActive)
-        {
-            List<DataEmployeeEngagement> employeeCertificationList = _context.Set<DataEmployeeEngagement>().
-                FromSqlRaw("SP_GetEmployeeEngagement @IdEmployee, @GPN_GPN, @IdEmployeeStatus, @Weeks_before_end, @PageNumber, @RowsOfPage, @IsActive",
-                new SqlParameter("@IdEmployee", idEmployee),
-                new SqlParameter("@GPN_GPN", GPN),
-                new SqlParameter("@IdEmployeeStatus", StatusEmployee),
-                new SqlParameter("@Weeks_before_end", WeeksEnd),
-                new SqlParameter("@PageNumber", PageNumber),
-                new SqlParameter("@RowsOfPage", RowsOfPage),
-                new SqlParameter("@IsActive", IsActive)).ToList();
-            return employeeCertificationList;
-        }
+        
 
     }
 }

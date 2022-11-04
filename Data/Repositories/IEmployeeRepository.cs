@@ -11,7 +11,6 @@ namespace gdsmx_back_netcoreAPI.Data.Repositories
         ActionResult<IEnumerable<DataEmployeeBadge>> GetBadges(int idEmployee, object level, object status, int page, int pageSize);
         ActionResult<IEnumerable<DataEmployeeCertification>> GetCertifications(int idEmployee, int option, DateTime? startDate, DateTime? endDate, 
                                                                                 object certification, int page, int pageSize);
-        ActionResult<IEnumerable<DataEmployeeEngagement>> GetEngagements(int idEmployee, string GPN, int StatusEmployee, int WeeksEnd, int PageNumber, int RowsOfPage, int IsActive);
         int GetEmployeeByGPN(string gpn);
     }
 }

@@ -104,17 +104,6 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
             return _employeeRepository.GetCertifications(idEmployee, request.Option, request.StartDate, request.EndDate, certification, request.Page, request.PageSize);
         }
 
-        public ActionResult<IEnumerable<DataEmployeeEngagement>> GetEngagements(string gpn, RequestEmployeeEngagement request)
-        {
-            
-            int idEmployee = _employeeRepository.GetEmployeeByGPN(gpn);
-
-            if (idEmployee == 0)
-            {
-                return new List<DataEmployeeEngagement>();
-            }
-
-            return _employeeRepository.GetEngagements(idEmployee, gpn, request.IdEmployeeStatus, request.WeeksBeforeEnd,  request.Page, request.PageSize, request.IsActive);
-        }
+      
     }
 }

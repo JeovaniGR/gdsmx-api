@@ -1,4 +1,6 @@
-﻿namespace gdsmx_back_netcoreAPI.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace gdsmx_back_netcoreAPI.DTO
 {
     /// <summary>
     /// DTO class for employee's Engagement data requests
@@ -13,7 +15,13 @@
             Page = 1;
             PageSize = 1;
         }
+
+        /// <summary>
+        /// Starting GPN to filter. Default value:  GNP of Employee.
+        /// </summary>
         
+        public string GPN { get; set; } = "";
+
         /// <summary>
         /// Starting status to filter. Default value:  Status Employee.
         /// </summary>
@@ -34,6 +42,7 @@
         /// Is active Engagement. Default value: 0
         /// </summary>
         public int IsActive { get; set; }
+        public int IdStatus { get; set; }
 
 
     }

@@ -3,7 +3,7 @@
     public class DataEmployeeEngagement
     {
         public int IdEmployee { get; set; }
-        public string GNP { get; set; }
+        public string? GPN { get; set; }
         public string? FirstName { get; set; }
         public string? MiddleName { get; set; }
         public string? LastName { get; set; }
@@ -15,5 +15,7 @@
         public string? ProjectManagerName { get; set; }
         public string? ProjectManagerEmail { get; set; }
         public int WeeksBeforeEnd { get; set; }
+        public int Status { get; set; }
+        public string StatusDescription { get; set; }
     }
 }

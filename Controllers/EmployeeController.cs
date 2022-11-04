@@ -177,36 +177,7 @@ namespace gdsmx_back_netcoreAPI.Controllers
             }
         }
 
-        /// <summary>
-        /// Get list of employee's Engagements.
-        /// </summary>
-        /// <remarks>
-        /// Examples: /api/Employee/XE264109159/Engagements
-        /// </remarks>
-        /// <param name="gpn">Employee's EY ID</param>
-        /// <param name="requestEmployeeEngagement">Filters for searching. Page and PageSize default value is 1.</param>
-        /// <returns>List of employee's certifications</returns>
-        [HttpGet("{gpn}/Engagements")]
-        public IActionResult GetEngagements(string gpn, [FromQuery] RequestEmployeeEngagement requestEmployeeEngagement)
-        {
-            try
-            {
-                var employeeEngagements = _bLEmployee.GetEngagements(gpn, requestEmployeeEngagement);
-
-                if (!employeeEngagements.Value.Any())
-                {
-                    return NotFound("Employee's engagements information not found.");
-                }
-
-                return Ok(employeeEngagements);
-            }
-            catch (Exception ex)
-            {
-                string message = $"Error in GetEngagement, error message: {ex.Message}, HResult: {ex.HResult}";
-                _logger.LogError(message);
-                return BadRequest(message);
-            }
-        }
+        
 
         /// <summary>
         /// Get dummy data of badges
