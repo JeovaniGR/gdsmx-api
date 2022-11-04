@@ -131,7 +131,7 @@ namespace gdsmx_back_netcoreAPI.Controllers
         /// Get list of employee's Engagements.
         /// </summary>
         /// <remarks>
-        /// Examples: api/Engagement?GPN=XE264109159&Page=1&PageSize=10
+        /// Examples: api/Engagement?GPN=XE264109159&amp;Page=1&amp;PageSize=10
         /// </remarks>
         /// <param name="requestEmployeeEngagement">Filters for searching. Page and PageSize default value is 1.</param>
         /// <returns>List of employee's certifications</returns>

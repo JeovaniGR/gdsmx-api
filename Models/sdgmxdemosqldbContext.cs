@@ -145,6 +145,7 @@ namespace gdsmx_back_netcoreAPI.Models
                 entity.Property(e => e.WeeksBeforeEnd);
                 entity.Property(e => e.Status);
                 entity.Property(e => e.StatusDescription);
+                entity.Property(e => e.IdEngagement);
             });
 
             modelBuilder.Entity<BadgeCategory>(entity =>

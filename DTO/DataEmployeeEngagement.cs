@@ -17,5 +17,6 @@
         public int WeeksBeforeEnd { get; set; }
         public int Status { get; set; }
         public string StatusDescription { get; set; }
+        public int IdEngagement { get; set; }
     }
 }
