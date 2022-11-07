@@ -51,7 +51,7 @@ namespace gdsmx_back_netcoreAPI.DTO
         /// </summary>
         public bool IsActive {get; set; }
         /// <summary>
-        /// Engagement register status id from catalogue
+        /// Engagement status id from catalogue
         /// </summary>
         public int? Status { get; set;}
         /// <summary>

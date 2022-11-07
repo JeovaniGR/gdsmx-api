@@ -12,24 +12,21 @@ namespace gdsmx_back_netcoreAPI.DTO
         /// </summary>
         public RequestEmployeeEngagement()
         {
+            GPN = string.Empty;
+            WeeksBeforeEnd = string.Empty;
             Page = 1;
             PageSize = 1;
+            SearchEmployee = string.Empty;
         }
 
         /// <summary>
-        /// Starting GPN to filter. Default value:  GNP of Employee.
+        /// Starting GPN to filter.
         /// </summary>
-        
-        public string GPN { get; set; } = "";
-
-        /// <summary>
-        /// Starting status to filter. Default value:  Status Employee.
-        /// </summary>
-        public int IdEmployeeStatus { get; set; }
+        public string GPN { get; set; }
         /// <summary>
         /// Starting amount weeks to filter. Amount weeks before end engagement.
         /// </summary>
-        public int WeeksBeforeEnd { get; set; }      
+        public string WeeksBeforeEnd { get; set; }
         /// <summary>
         /// Current page number. Default value: 1
         /// </summary>
@@ -41,9 +38,18 @@ namespace gdsmx_back_netcoreAPI.DTO
         /// <summary>
         /// Is active Engagement. Default value: 0
         /// </summary>
-        public int IsActive { get; set; }
-        public int IdStatus { get; set; }
-
-
+        public bool IsActive { get; set; }
+        /// <summary>
+        /// Engagement status
+        /// </summary>
+        public string? Status { get; set; }
+        /// <summary>
+        /// Employee status filter
+        /// </summary>
+        public string? EmployeeStatus { get; set; }
+        /// <summary>
+        /// Employee name filter
+        /// </summary>
+        public string SearchEmployee { get; set; }
     }
 }

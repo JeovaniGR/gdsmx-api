@@ -4,6 +4,7 @@ using gdsmx_back_netcoreAPI.Data.Repositories;
 using gdsmx_back_netcoreAPI.DTO;
 using gdsmx_back_netcoreAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlTypes;
 using System.Net;
 using System.Net.NetworkInformation;
 
@@ -83,8 +84,10 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
 
         public ActionResult<IEnumerable<DataEmployeeEngagement>> GetEngagements(RequestEmployeeEngagement request)
         {
+            var status = request.Status ?? SqlString.Null;
+            var employeeStatus = request.EmployeeStatus ?? SqlString.Null;
 
-            return _engagementRepository.GetEngagements(0, request.GPN, request.IdEmployeeStatus, request.WeeksBeforeEnd, request.Page, request.PageSize, request.IsActive, request.IdStatus);
+            return _engagementRepository.GetEngagements(0, request.GPN, request.WeeksBeforeEnd, request.Page, request.PageSize, request.IsActive, status, employeeStatus, request.SearchEmployee);
         }
     }
 }

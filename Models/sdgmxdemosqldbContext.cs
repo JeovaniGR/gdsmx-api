@@ -136,16 +136,21 @@ namespace gdsmx_back_netcoreAPI.Models
                 entity.Property(e => e.MiddleName);
                 entity.Property(e => e.LastName);
                 entity.Property(e => e.SecondLastName);
+                entity.Property(e => e.IdEngagement);
+                entity.Property(e => e.EngagementId);
+                entity.Property(e => e.CustomerName);
                 entity.Property(e => e.ProjectName);
+                entity.Property(e => e.EngagementHours);
+                entity.Property(e => e.CancelationDate);
+                entity.Property(e => e.Comments);
                 entity.Property(e => e.StartDate);
                 entity.Property(e => e.EndDate);
-                entity.Property(e => e.DaysBeforeEnd);
                 entity.Property(e => e.ProjectManagerName);
                 entity.Property(e => e.ProjectManagerEmail);
-                entity.Property(e => e.WeeksBeforeEnd);
                 entity.Property(e => e.Status);
                 entity.Property(e => e.StatusDescription);
-                entity.Property(e => e.IdEngagement);
+                entity.Property(e => e.DaysBeforeEnd);                
+                entity.Property(e => e.WeeksBeforeEnd);
             });
 
             modelBuilder.Entity<BadgeCategory>(entity =>

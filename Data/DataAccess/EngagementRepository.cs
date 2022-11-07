@@ -39,18 +39,19 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
 
             return engagement.IdEngagement;
         }
-        public ActionResult<IEnumerable<DataEmployeeEngagement>> GetEngagements(int idEmployee, string GPN, int StatusEmployee, int WeeksEnd, int PageNumber, int RowsOfPage, int IsActive, int IdStatus)
+        public ActionResult<IEnumerable<DataEmployeeEngagement>> GetEngagements(int idEmployee, string GPN, string weeksBeforeEnd, int pageNumber, int rowsOfPage, bool isActive, object status, object employeeStatus, string employeeName)
         {
             List<DataEmployeeEngagement> employeeEngagements = _context.Set<DataEmployeeEngagement>().
-                FromSqlRaw("SP_GetEmployeeEngagement @IdEmployee, @GPN_GPN, @IdEmployeeStatus, @Weeks_before_end, @PageNumber, @RowsOfPage, @IsActive,@IdStatus",
+                FromSqlRaw("SP_GetEmployeeEngagement @IdEmployee, @GPN_GPN, @Weeks_before_end, @PageNumber, @RowsOfPage, @IsActive, @filterStatus, @filterEmployeeStatus, @searchEmployee",
                 new SqlParameter("@IdEmployee", idEmployee),
                 new SqlParameter("@GPN_GPN", GPN),
-                new SqlParameter("@IdEmployeeStatus", StatusEmployee),
-                new SqlParameter("@Weeks_before_end", WeeksEnd),
-                new SqlParameter("@PageNumber", PageNumber),
-                new SqlParameter("@RowsOfPage", RowsOfPage),
-                new SqlParameter("@IsActive", IsActive),
-                new SqlParameter("@IdStatus", IdStatus)).ToList();
+                new SqlParameter("@Weeks_before_end", weeksBeforeEnd),
+                new SqlParameter("@PageNumber", pageNumber),
+                new SqlParameter("@RowsOfPage", rowsOfPage),
+                new SqlParameter("@IsActive", isActive),
+                new SqlParameter("@filterStatus", status),
+                new SqlParameter("@filterEmployeeStatus", employeeStatus),
+                new SqlParameter("@searchEmployee", employeeName)).ToList();
             return employeeEngagements;
         }
     }
