@@ -107,5 +107,7 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
 
             return _employeeRepository.GetCertifications(idEmployee, request.Option, request.StartDate, request.EndDate, certification, request.Page, request.PageSize);
         }
+
+      
     }
 }

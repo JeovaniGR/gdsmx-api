@@ -84,5 +84,7 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
             return employeeCertificationList;
         }
 
+        
+
     }
 }

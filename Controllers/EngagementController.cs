@@ -127,5 +127,34 @@ namespace gdsmx_back_netcoreAPI.Controllers
                 return BadRequest(message);
             }
         }
+        /// <summary>
+        /// Get list of employee's Engagements.
+        /// </summary>
+        /// <remarks>
+        /// Examples: api/Engagement?GPN=XE264109159&amp;Page=1&amp;PageSize=10
+        /// </remarks>
+        /// <param name="requestEmployeeEngagement">Filters for searching. Page and PageSize default value is 1.</param>
+        /// <returns>List of employee's certifications</returns>
+        [HttpGet]
+        public IActionResult GetEngagements([FromQuery] RequestEmployeeEngagement requestEmployeeEngagement)
+        {
+            try
+            {
+                var employeeEngagements = _blEngagement.GetEngagements(requestEmployeeEngagement);
+
+                if (!employeeEngagements.Value.Any())
+                {
+                    return NotFound("Employee's engagements information not found.");
+                }
+
+                return Ok(employeeEngagements);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error in GetEngagement, error message: {ex.Message}, HResult: {ex.HResult}";
+                _logger.LogError(message);
+                return BadRequest(message);
+            }
+        }
     }
 }

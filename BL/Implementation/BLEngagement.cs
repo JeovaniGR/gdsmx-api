@@ -5,6 +5,7 @@ using gdsmx_back_netcoreAPI.DTO;
 using gdsmx_back_netcoreAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Net.NetworkInformation;
 
 namespace gdsmx_back_netcoreAPI.BL.Implementation
 {
@@ -78,6 +79,12 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
             var updatedEngagement = _engagementRepository.UpdateEngagement(engagement);
 
             return updatedEngagement;
+        }
+
+        public ActionResult<IEnumerable<DataEmployeeEngagement>> GetEngagements(RequestEmployeeEngagement request)
+        {
+
+            return _engagementRepository.GetEngagements(0, request.GPN, request.IdEmployeeStatus, request.WeeksBeforeEnd, request.Page, request.PageSize, request.IsActive, request.IdStatus);
         }
     }
 }

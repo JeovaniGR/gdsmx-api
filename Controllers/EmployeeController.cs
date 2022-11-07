@@ -3,6 +3,7 @@ using gdsmx_back_netcoreAPI.BL.Interfaces;
 using gdsmx_back_netcoreAPI.DTO;
 using DocumentFormat.OpenXml.Spreadsheet;
 
+
 namespace gdsmx_back_netcoreAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -175,6 +176,8 @@ namespace gdsmx_back_netcoreAPI.Controllers
                 return BadRequest(message);
             }
         }
+
+        
 
         /// <summary>
         /// Get dummy data of badges

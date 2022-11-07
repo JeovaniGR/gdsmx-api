@@ -126,6 +126,29 @@ namespace gdsmx_back_netcoreAPI.Models
                 entity.Property(e => e.ExpirationDate);
             });
 
+            //Context for SP_GetEmployeeEngagement
+            modelBuilder.Entity<DataEmployeeEngagement>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.IdEmployee);
+                entity.Property(e => e.GPN);
+                entity.Property(e => e.FirstName);
+                entity.Property(e => e.MiddleName);
+                entity.Property(e => e.LastName);
+                entity.Property(e => e.SecondLastName);
+                entity.Property(e => e.ProjectName);
+                entity.Property(e => e.StartDate);
+                entity.Property(e => e.EndDate);
+                entity.Property(e => e.DaysBeforeEnd);
+                entity.Property(e => e.ProjectManagerName);
+                entity.Property(e => e.ProjectManagerEmail);
+                entity.Property(e => e.WeeksBeforeEnd);
+                entity.Property(e => e.Status);
+                entity.Property(e => e.StatusDescription);
+                entity.Property(e => e.IdEngagement);
+            });
+
             modelBuilder.Entity<BadgeCategory>(entity =>
             {
                 entity.HasKey(e => e.IdBadgeCategory);
