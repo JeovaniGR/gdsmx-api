@@ -53,5 +53,20 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
                 new SqlParameter("@IdStatus", IdStatus)).ToList();
             return employeeEngagements;
         }
+
+        public List<DataEmployeeEngagement> GetFile(int idEmployee, string GPN, int statusEmployee, int WeeksEnd, int pageNumber, int rowsOfPage, int isActive, int idStatus)
+        {
+            List<DataEmployeeEngagement> engagementsList = _context.Set<DataEmployeeEngagement>().
+                FromSqlRaw("SP_GetEmployeeEngagement @IdEmployee, @GPN_GPN, @IdEmployeeStatus, @Weeks_before_end, @PageNumber, @RowsOfPage, @IsActive, @IdStatus",
+                new SqlParameter("@IdEmployee", idEmployee),
+                new SqlParameter("@GPN_GPN", GPN),
+                new SqlParameter("@IdEmployeeStatus", statusEmployee),
+                new SqlParameter("@Weeks_before_end", WeeksEnd),
+                new SqlParameter("@PageNumber", pageNumber),
+                new SqlParameter("@RowsOfPage", rowsOfPage),
+                new SqlParameter("@IsActive", isActive),
+                new SqlParameter("@IdStatus", idStatus)).ToList();
+            return engagementsList;
+        }
     }
 }

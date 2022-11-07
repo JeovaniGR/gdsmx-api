@@ -9,5 +9,6 @@ namespace gdsmx_back_netcoreAPI.BL.Interfaces
         ActionResult<int> CreateEngagement(int idEmployee, RequestEngagementCU requestEngagementCU);
         ActionResult<int> UpdateEngagement(int idEmployee, int idEngagement, RequestEngagementCU requestEngagementCU);
         ActionResult<IEnumerable<DataEmployeeEngagement>> GetEngagements(RequestEmployeeEngagement request);
+        byte[] GetExportFile(RequestEmployeeEngagementExport request);
     }
 }

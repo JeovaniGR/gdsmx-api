@@ -1,5 +1,5 @@
 ﻿using gdsmx_back_netcoreAPI.BL.Interfaces;
-using gdsmx_back_netcoreAPI.Data.DataAccess;
+using gdsmx_back_netcoreAPI.BL.Resource;
 using gdsmx_back_netcoreAPI.Data.Repositories;
 using gdsmx_back_netcoreAPI.DTO;
 using gdsmx_back_netcoreAPI.Models;
@@ -85,6 +85,22 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
         {
 
             return _engagementRepository.GetEngagements(0, request.GPN, request.IdEmployeeStatus, request.WeeksBeforeEnd, request.Page, request.PageSize, request.IsActive, request.IdStatus);
+        }
+
+        public byte[] GetExportFile(RequestEmployeeEngagementExport request)
+        {
+            List<DataEmployeeEngagement> engagementsList = _engagementRepository.GetFile(0, request.GPN, request.IdEmployeeStatus, request.WeeksBeforeEnd, request.Page, request.PageSize, request.IsActive, request.IdStatus);
+
+            if(request.FileType == 1)
+            {
+                IExcelWriter<DataEmployeeEngagement> EngagementExcelWriter = new EngagementFileWriter();
+                return EngagementExcelWriter.WriteToExcel(engagementsList);
+            }
+            else
+            {
+                ICSVWriter<DataEmployeeEngagement> EngagementCSVWriter = new EngagementFileWriter();
+                return EngagementCSVWriter.WriteToCSV(engagementsList);
+            }
         }
     }
 }
