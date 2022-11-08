@@ -13,10 +13,10 @@
         public string? CustomerName { get; set; }
         public string? ProjectName { get; set; }
         public int? EngagementHours { get; set; }
-        public DateTime? CancelationDate { get; set; }
+        public DateTime CancelationDate { get; set; }
         public string? Comments { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string? ProjectManagerName { get; set; }
         public string? ProjectManagerEmail { get; set; }
         public int? Status { get; set; }

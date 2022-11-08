@@ -162,20 +162,20 @@ namespace gdsmx_back_netcoreAPI.Controllers
         /// Get an Excel or CSV file wich contains the employees engagements data.
         /// </summary>
         /// <remarks>
-        /// Examples: api/Engagement?GPN=XE264109159&amp;Page=1&amp;PageSize=10&amp;FileType=0
+        /// Examples: api/Engagement?GPN=XE264109159&amp;Page=1&amp;PageSize=10&amp;FileType=0&amp;IsActive=1
         /// </remarks>
-        /// <param name="request">Filters to search engagements data. Page and PageSize default value is 1. FileType parameter default value is 
+        /// <param name="requestEmployeeEngagementExport">Filters to search engagements data. Page and PageSize default value is 1. FileType parameter default value is 
         /// 0; 0 for CSV and 1 for Excel file type.</param>
         /// <returns>Excel or CSV file with employees engagement data.</returns>
         [HttpGet("Export")]
-        public IActionResult GetExport([FromQuery]RequestEmployeeEngagementExport request)
+        public IActionResult GetExport([FromQuery]RequestEmployeeEngagementExport requestEmployeeEngagementExport)
         {
             try
             {
-                if (request.FileType == 1)
-                    return File(_blEngagement.GetExportFile(request), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "EmployeeEngagement_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".xlsx");
+                if (requestEmployeeEngagementExport.FileType == 1)
+                    return File(_blEngagement.GetExportFile(requestEmployeeEngagementExport), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Engagements_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".xlsx");
                 else
-                    return File(_blEngagement.GetExportFile(request), "Text/CSV", "EmployeeEngagement_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".csv");
+                    return File(_blEngagement.GetExportFile(requestEmployeeEngagementExport), "Text/CSV", "Engagements_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".csv");
             }
             catch(Exception ex)
             {
