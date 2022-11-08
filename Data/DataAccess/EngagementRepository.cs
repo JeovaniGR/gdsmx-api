@@ -55,18 +55,19 @@ namespace gdsmx_back_netcoreAPI.Data.DataAccess
             return employeeEngagements;
         }
 
-        public List<DataEmployeeEngagement> GetFile(int idEmployee, string GPN, int statusEmployee, int WeeksEnd, int pageNumber, int rowsOfPage, int isActive, int idStatus)
+        public List<DataEmployeeEngagement> GetFile(int idEmployee, string GPN, string weeksBeforeEnd, int pageNumber, int rowsOfPage, bool isActive, object status, object employeeStatus, string employeeName)
         {
             List<DataEmployeeEngagement> engagementsList = _context.Set<DataEmployeeEngagement>().
-                FromSqlRaw("SP_GetEmployeeEngagement @IdEmployee, @GPN_GPN, @IdEmployeeStatus, @Weeks_before_end, @PageNumber, @RowsOfPage, @IsActive, @IdStatus",
+                FromSqlRaw("SP_GetEmployeeEngagement @IdEmployee, @GPN_GPN, @Weeks_before_end, @PageNumber, @RowsOfPage, @IsActive, @filterStatus, @filterEmployeeStatus, @searchEmployee",
                 new SqlParameter("@IdEmployee", idEmployee),
                 new SqlParameter("@GPN_GPN", GPN),
-                new SqlParameter("@IdEmployeeStatus", statusEmployee),
-                new SqlParameter("@Weeks_before_end", WeeksEnd),
+                new SqlParameter("@Weeks_before_end", weeksBeforeEnd),
                 new SqlParameter("@PageNumber", pageNumber),
                 new SqlParameter("@RowsOfPage", rowsOfPage),
                 new SqlParameter("@IsActive", isActive),
-                new SqlParameter("@IdStatus", idStatus)).ToList();
+                new SqlParameter("@filterStatus", status),
+                new SqlParameter("@filterEmployeeStatus", employeeStatus),
+                new SqlParameter("@searchEmployee", employeeName)).ToList();
             return engagementsList;
         }
     }

@@ -127,6 +127,7 @@ namespace gdsmx_back_netcoreAPI.Controllers
                 return BadRequest(message);
             }
         }
+
         /// <summary>
         /// Get list of employee's Engagements.
         /// </summary>
@@ -156,6 +157,7 @@ namespace gdsmx_back_netcoreAPI.Controllers
                 return BadRequest(message);
             }
         }
+
         /// <summary>
         /// Get an Excel or CSV file wich contains the employees engagements data.
         /// </summary>

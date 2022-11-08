@@ -92,7 +92,10 @@ namespace gdsmx_back_netcoreAPI.BL.Implementation
 
         public byte[] GetExportFile(RequestEmployeeEngagementExport request)
         {
-            List<DataEmployeeEngagement> engagementsList = _engagementRepository.GetFile(0, request.GPN, request.IdEmployeeStatus, request.WeeksBeforeEnd, request.Page, request.PageSize, request.IsActive, request.IdStatus);
+            var status = request.Status ?? SqlString.Null;
+            var employeeStatus = request.EmployeeStatus ?? SqlString.Null;
+
+            List<DataEmployeeEngagement> engagementsList = _engagementRepository.GetFile(0, request.GPN, request.WeeksBeforeEnd, request.Page, request.PageSize, request.IsActive, status, employeeStatus, request.SearchEmployee);
 
             if(request.FileType == 1)
             {

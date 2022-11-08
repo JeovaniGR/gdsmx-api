@@ -22,7 +22,7 @@ namespace gdsmx_back_netcoreAPI.BL.Resource
             "End Date",
             "Days Before End",
             "Weeks Before End",
-            "Project Managet Name",
+            "Project Manager Name",
             "Project Manager Email",
             "Status",
             "Status Description",
@@ -93,16 +93,16 @@ namespace gdsmx_back_netcoreAPI.BL.Resource
                     worksheet.Cell(currentRow, 13).Value = employeeEngagement.Status;
                     worksheet.Cell(currentRow, 14).Value = employeeEngagement.StatusDescription;
                     worksheet.Cell(currentRow, 15).Value = employeeEngagement.IdEngagement;
+                }
 
-                    worksheet.Columns(1, 15).AdjustToContents();
+                worksheet.Columns(1, 15).AdjustToContents();
 
-                    using (var stream = new MemoryStream())
-                    {
-                        workExcel.SaveAs(stream);
-                        var content = stream.ToArray();
+                using (var stream = new MemoryStream())
+                {
+                    workExcel.SaveAs(stream);
+                    var content = stream.ToArray();
 
-                        return content;
-                    }
+                    return content;
                 }
             }
         }
