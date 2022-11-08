@@ -136,7 +136,7 @@ namespace gdsmx_back_netcoreAPI.Controllers
         /// <param name="requestEmployeeEngagement">Filters for searching. Page and PageSize default value is 1.</param>
         /// <returns>List of employee's certifications</returns>
         [HttpGet]
-        public IActionResult GetEngagements([FromQuery] RequestEmployeeEngagement requestEmployeeEngagement)
+        public IActionResult GetEngagement([FromQuery] RequestEmployeeEngagement requestEmployeeEngagement)
         {
             try
             {
